@@ -1,0 +1,287 @@
+:root{
+
+    --primary :#222326;/**/
+    --bcgWhite : #ffffff;
+    --dark : #343a40;
+    --azul : #0d1c39;
+    --semiWhite: #f7f7f7;
+    --secundary:#444;
+    --distaque:#FF9500;
+    --titleP: #ccc;
+    --textColor:#ccc;
+}
+/*==================Asisde===========*/
+/*.navbar-brand{
+
+	color: white !important;
+}*/
+.btn-search{
+
+	background: var(--distaque) !important;
+	color:  var(--semiWhite) !important;
+}
+.notify-count{
+
+	background: var(--distaque) !important;
+	color:  var(--semiWhite) !important;
+}
+.nav-aside{
+
+	background: var(--distaque) !important;
+	padding-top: unset !important;
+	margin-top: 20px;
+}
+.sidebar .nav>li>a {
+    padding: 7px 20px;
+    line-height: 20px;
+    color: white;
+    /* display: block; */
+    text-decoration: none;
+}
+.sidebar-minify-btn{
+
+	background-color: white !important;
+	color:#444 !important;
+}
+.sidebar-minify-btn:hover{
+
+	background-color: #FF9500 !important;
+	color:white !important;
+}
+.sidebar-minify-btn i.ion-ios-arrow-back{
+
+	color: #444 !important;
+}
+/*==================DashBoard==============*/
+.content{
+
+	margin-top: 30px !important;
+}
+.btn-scroll-to-top{
+
+	background-color: #2fab8e !important;
+}
+.btn-action{
+
+	padding:8px 5px;
+}
+.content-card-licenca{
+
+	background-color:white;
+	padding:20px 10px;
+}
+.img-card-licenca{
+
+	border-radius:50%;
+}
+/*======================Ver Detalhes Licença=================*/
+.list-info-card-licenca{
+
+	list-style-type:none;
+	margin-left:-20px;
+	margin-top:5px;
+}
+.list-info-card-licenca li{
+
+	padding-bottom:10px;
+	font-size:16px;
+	color:#1c1c1c;
+}
+
+.nav-tabs{
+
+	background-color: white;
+	border-bottom: 1px solid var(--textColor);
+}
+.nav-tabs li a.nav-link{
+
+	font-size:14px;
+	color:#1c1c1c;
+	border-radius: unset;
+	transition: background-color .3s;
+}
+.nav-tabs li a.nav-link:hover{
+
+	color:white !important;
+	background-color:#222 !important;
+}
+
+.nav.nav-tabs .nav-item .nav-link.active{
+
+	font-size:14px;
+	color:white !important;
+	background-color:#222 !important;
+}
+.fotter_ver-container{
+
+	margin-top: 20px;
+	padding:20px 5px;
+	border-top: 1px solid var(--textColor);
+}
+/*======================Ver Detalhes Licença Documentos=================*/
+.doc-carregados-container{
+	background-color: var(--semiWhite);
+	padding:10px;
+	min-height:320px;
+}
+
+.doc-em-falta-container{
+	background-color: var(--semiWhite);
+	padding:10px;
+	min-height:320px;
+}
+.semi-text-title{
+	font-size:13px;	
+}
+.title-doc-em-falta{
+	margin-top:120px;
+	font-size:13px;
+}
+.icon-doc-not-add{
+	font-size:28px;
+	padding-bottom:10px;
+}
+.doc-container{
+
+	padding:20px 10px;
+}
+.content-doc-list-container{
+	padding:unset !important;
+	margin-top:-8px;
+}
+.content-doc-list{
+
+	background-color:var(--bcgWhite);
+	border-radius:3px;
+	transition:box-shadow .3s;
+	cursor: pointer;
+}
+.content-doc-list:hover{
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1) !important;
+}
+.doc-list-title{
+	padding:10px;
+	font-size: 13px;
+}
+.doc-list-number{
+	background-color: var(--distaque);
+	color:var(--bcgWhite);
+	border-radius: 50%;
+	padding:5px 10px;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1) !important;
+	margin-right:10px;
+}
+.doc-not-add{
+	background-color:var(--dark) !important;
+}
+.lbl_addDoc{
+	width:100%;
+	cursor: pointer;
+	padding: unset;
+}
+/*==================Ficha=========================*/
+.btn-next-previus-ficha{
+
+	background-color: var(--dark);
+	color:white;
+	border-radius: unset;
+	transition: background-color .3s;
+}
+.btn-next-previus-ficha:hover{
+
+	background-color: var(--distaque);
+	color:white;
+}
+.btn-next-ficha{
+
+	border-top-right-radius:3px;
+	border-bottom-right-radius:3px;
+}
+.btn-previus-ficha{
+
+	border-top-left-radius:3px;
+	border-bottom-left-radius:3px;
+}
+.ficha-preview-dados-container{
+
+	background-color: var(--semiWhite);
+	margin-top:20px;
+	padding:20px;
+}
+.ficha-text-container{
+
+	font-size:12px;
+}
+
+/*====================Licencas==================*/
+
+.btn-destaque{
+
+	background-color: #2fab8e;
+	color: #f7f7f7;
+	border-color: #2fab8e;
+	transition: color .3s; 
+}
+.btn-destaque:hover{
+
+	color:white;
+	background-color: #2fab8e;
+	border-color: #2fab8e;
+}
+
+/*================Licencas Add ====================*/
+.sw-main.sw-theme-default .step-anchor>li.active>a .number {
+    background: #2fab8e;
+    color: #fff;
+}
+.sw-main.sw-theme-default .step-anchor>li.done>a .number:before {
+    content: '\f00c';
+    background: #2fab8e !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color: #fff;
+    font-family: Font Awesome\ 5 Free,Font Awesome\ 5 Pro,FontAwesome!important;
+    font-weight: 900;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-border-radius: 40px;
+    border-radius: 40px;
+}
+.sw-btn-next:hover{
+
+	background-color: #2fab8e !important;
+	border-color: #2fab8e !important;
+	color: white;
+}
+.addLicencaGifContainer{
+	padding:40px;
+	margin-top:30px;
+}
+.addLicencaGifContainer im{
+	width:40px;
+}
+.addLicencaGifContainer p{
+	font-size:16px;
+}
+.ficha-container{
+
+	overflow-y:auto;
+}
+
+.ficha-top-content{
+
+	padding-top:50px;
+}
+.ficha-heade-top{
+
+	text-align:center;
+	padding-top:10px;
+}
+.ficha-heade-img{
+
+	border:1px solid #444;
+}

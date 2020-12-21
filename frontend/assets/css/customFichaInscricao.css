@@ -1,0 +1,46 @@
+.ficha-top-content {
+
+    width: 100%;
+}
+
+.ficha-heade {
+
+    display: inline-flex;
+}
+
+.ficha-content-col-12 {
+
+    padding-left: 50px !important;
+    padding-right: 50px !important;
+}
+
+.ficha-text-container {
+
+    display: inline-flex;
+    width: 100%;
+}
+
+.ficha-text-container .col-lg-10 {
+
+    width: 100%;
+}
+
+.ficha-text-container span {
+
+    padding-right: 5px;
+    font-size: 14px;
+    color: #1c1c1c;
+}
+
+.ficha-text-container p {
+
+    font-size: 13px;
+    border-bottom: 1px solid rgb(88, 78, 78);
+    padding-left: 2px;
+    color: #444;
+}
+
+.row-p {
+    min-width: 50%;
+    max-width: 100%;
+}
