@@ -40,17 +40,16 @@
 				</ul>
 			</li>
 
-            <!-- <li class="has-sub">
+            <li class="has-sub">
                 <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="nav-icon fas fa-copy"></i>
-                    <span>Turno e Turma</span>
+                    <span>Salas</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class=""><a href=""><i class="fas fa-tags"></i> Gerir Turnos</a></li>
-                    <li class=""><a href=""><i class="fas fa-tags"></i> Gerir Turma</a></li>
+                    <li class=""><a href="<?= url('salas-listar') ?>"><i class="fas fa-tags"></i>Listar</a></li>
                 </ul>
-            </li> -->
+            </li>
 
             <li class="has-sub">
                 <a href="javascript:;">

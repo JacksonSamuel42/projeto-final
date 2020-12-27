@@ -15,54 +15,67 @@ include __DIR__. "../includes/aside.php";
         
 ?>
 <div id="content" class="content" style="margin-top:40px;">
-<!-- begin breadcrumb -->
+	<!-- begin breadcrumb -->
 	<ol class="breadcrumb float-xl-right">
-        <li class="breadcrumb-item"><a href="/SGN/admin/">Home</a></li>
-        <li class="breadcrumb-item"><a href="javascript:;">Professor</a></li>
-        <li class="breadcrumb-item"><a href="javascript:;">Visualizar Professor</a></li>
-    </ol>
-    <!-- end breadcrumb -->
+		<li class="breadcrumb-item"><a href="/SGN/admin/">Home</a></li>
+		<li class="breadcrumb-item"><a href="javascript:;">Professor</a></li>
+		<li class="breadcrumb-item"><a href="javascript:;">Visualizar Professor</a></li>
+	</ol>
+	<!-- end breadcrumb -->
 
-    <!-- begin page-header -->
-    <h1 class="page-header">Detalhes do Professor</small></h1>
-    <!-- end page-header -->
+	<!-- begin page-header -->
+	<h1 class="page-header">Detalhes do Professor(a)</small></h1>
+	<!-- end page-header -->
+
 	<div class="row">
-		<!-- begin col-10 -->
-		<div class="col-xl-12">
-			<div>
-				<ul class="nav nav-tabs">
-					<li class="nav-item">
-						<a class="nav-link active" data-toggle="tab" href="#perfil">
-							Perfil
-						</a>
-					</li>
-					<!-- <li class="nav-item">
-						<a class="nav-link" data-toggle="tab" href="#notas">Desempenho</a>
-					</li> -->
-				</ul>
-
-				<!-- Tab panes -->
-				<div class="tab-content" style="background:#ccc">
-					<div class="tab-pane active container" id="perfil" >
-						<?php include __DIR__. "/professor/perfil.php" ?>
-					</div>
-
-					<!-- <div class="tab-pane container" id="notas" data-sortable-id="chart-js-6">
-						<div class="col-lg-12 col-sm-12">
-							<div class="card p-5" style="height: 500px; box-shadow: 5px 5px 15px -3px rgba(0,0,0,.4)">
-								<div class="card-body">
-									<canvas id="doughnut-chart" data-render="chart-js"></canvas>
-								</div>
-							</div>
-						</div>
-					</div> -->
-
+		<!-- @if(isset($candidato) && !empty($candidato)) -->
+		<!--User Img Card-->
+		<div class="col-lg-3 p-0">
+			<div class="col-lg-12 bg-white p-4" style=" height: 190px; border-radius:3px 3px 0 0px">
+				<div class="w-100 text-center ">
+					<img class="img-user mt-4" width="100" src="../assets/avatar2.png">
+				</div>
+				<h3 class="text-center mt-2">Nome do Professor</h3>
+			</div>
+			<!-- User Carteira Card-->
+			<div class="col-lg-12 bg-white h-50 p-0 mt-2" style="margin-top:0px;height:54%;">
+				<div class="w-100 text-center bg-dark d-flex" style="height: 30px;">
+					<h3 class="w-100 text-center  text-white p-1" style="font-size:16px">Alguma Coisa
+					</h3>
+				</div>
+				<div class="w-100 text-center" style="padding-bottom:20px;margin-top:65px">
+					<h3 class=" text-white prece-saldo">
+						<!-- <span style="color:#333">0,00 <small>kz</small></span> -->
+					</h3>
 				</div>
 			</div>
 		</div>
-		<!-- end col-10 -->
+		<!--Tabs-->
+		<div class="col-lg-9 pr-0">
+			<div class="bg-white" style="border-radius:5px">
+				<ul class="nav nav-tabs">
+					<li class="nav-item">
+						<a class="nav-link active" data-toggle="tab" href="#historico">Dados Pessoais</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-toggle="tab" href="#pagamento">
+							Dados da Turma
+						</a>
+					</li>
+				</ul>
+				<!-- Tab panes -->
+				<div class="tab-content" style="height:380px;">
+					<div class="tab-pane active container p-0" id="historico">
+						<?php include __DIR__. '/professor/dados-pessoais.php' ?>
+					</div>
+					<div class="tab-pane container p-0" id="pagamento">
+						<h1>Dados da Turma</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--End Tabs-->
 	</div>
-	<!-- end row -->
 </div>
 
 <?php
@@ -70,4 +83,3 @@ include __DIR__. "../includes/aside.php";
 include __DIR__. "../includes/footer.php";
         
 ?>
-		

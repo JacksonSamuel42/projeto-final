@@ -25,7 +25,7 @@
 		# code...
 	}elseif ($enlace=="index") {
 
-		$modules = "../frontend/admin/login.php";
+		$modules = "../frontend/login.php";
 		# code...
 	}
 	else{

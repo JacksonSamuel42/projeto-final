@@ -64,7 +64,7 @@ include __DIR__. "../includes/aside.php";
                             <td width="20%">turma</td>
                             <td width="10%">classe</td>
                             <td>
-                                <a href="visualizarProf.php" class="btn btn-primary"><i class="fa fa-eye"></i> Visualizar</a>
+                                <a href="<?= url('professor-view') ?>" class="btn btn-primary"><i class="fa fa-eye"></i> Visualizar</a>
                                 <button type="button" class="deletebtn btn btn-danger"><i class="fa fa-trash"></i> Deletar</button>
                             </td>
                         </tr>

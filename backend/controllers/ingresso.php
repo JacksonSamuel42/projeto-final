@@ -23,13 +23,13 @@ class ingresso{
 
                         $_SESSION["validar"] = true;
                         $_SESSION["usuario"] = $resposta["usuario"];
-                         header("location: frontend/admin/dashboard");
+                         header("location: admin/dashboard");
                     }else if($resposta["permissao"] == 'moderador'){
                         session_start();
 
                         $_SESSION["validar"] = true;
                         $_SESSION["usuario"] = $resposta["usuario"];
-                         header("location: frontend/dturma/dashboard");
+                         header("location: dturma/dashboard");
 
                     }
                                # code...

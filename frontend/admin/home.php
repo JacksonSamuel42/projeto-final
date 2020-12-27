@@ -4,7 +4,7 @@ session_start();
 
 if(!$_SESSION["validar"]){
 
-    header("location:login");
+    header("location: ../login");
 
     exit();
 }

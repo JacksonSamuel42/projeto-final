@@ -7,6 +7,7 @@ include __DIR__. "../../backend/models/ingresso.php";
 if(isset($_SESSION["validar"])){
 	header("location: ./admin/dashboard");
 }      
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
