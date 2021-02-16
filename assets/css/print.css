@@ -1,0 +1,15 @@
+@media print {
+	body {
+		margin: 0;
+		padding: 0;
+		color-adjust: exact;  
+		-webkit-print-color-adjust: exact;
+	}
+
+	/* .front {
+		width: 100%;
+		background-color: lightslategray !important;
+		background-size: cover;
+	} */
+	  
+}
