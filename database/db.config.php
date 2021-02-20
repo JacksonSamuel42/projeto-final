@@ -1,5 +1,4 @@
-<?php 
-
+<?php
     $dbname ='sgn';
     $host = 'localhost';
     $user = 'root';

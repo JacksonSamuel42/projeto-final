@@ -1,4 +1,5 @@
 <?php
+ob_start();
 include('./database/db.config.php');
     
     if(isset($_POST['login_btn'])){
@@ -15,11 +16,14 @@ include('./database/db.config.php');
             if($sql->rowCount() > 0){
                 session_start();
                 $_SESSION['user'] = $data['name'];
+                $_SESSION['status_email'] = $data['status_email'];
+                $_SESSION['user_id'] = $data['user_id'];
+                
                 $usertype = $data['usertype'];
                 if($usertype == "Admin"){
-                    header("location: /SGN/view/");
+                    header("location: /SGN/view/admin/");
                 }elseif($usertype == "DiretorTurma"){
-                    echo $usertype;
+                    header("location: /SGN/view/professor/");
                 }
                 // header("Location: ../admin/dashboard.php");
             }else{
@@ -29,5 +33,6 @@ include('./database/db.config.php');
             echo "<div class='mt-2 alert alert-danger'>Por favor preencha todos os campos</div>";
         }
     }
-            
+
+ob_end_flush();   
 ?>

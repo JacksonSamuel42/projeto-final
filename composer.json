@@ -1,0 +1,23 @@
+{
+    "name": "jacksonsamuel/copenfl",
+    "description": "DESCOMPLICANDO MVC COM PHP DO JEITO CERTO",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+          "name": "Jackson Samuel",
+          "email": "jacksonsamu42@gmail.com"
+        }
+      ],
+    "autoload": {
+        "psr-4": {
+            "Source\\": "source/"
+        },
+        "files": [
+            "source/Config.php"
+        ]
+    },
+    "require": {
+        
+    }
+}
