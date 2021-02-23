@@ -75,12 +75,18 @@
                 </a>
             </li>
 
-            <li class="">
-                <a href="<?= url('boletim') ?>">
-                    <i class="fa fa-circle"></i>
-                    <span>Boletim</span>
-                </a>
-            </li>
+            <li class="has-sub">
+				<a href="javascript:;">
+                    <b class="caret"></b>
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Boletins</span>
+				</a>
+				<ul class="sub-menu">
+					<li class=""><a href="<?= url('boletim-1') ?>"><i class="fas fa-tags"></i><span>I-Trimestre</span></a></li>
+					<li class=""><a href="<?= url('boletim-2') ?>"><i class="fas fa-tags"></i><span>II-Trimestre</span></a></li>
+					<li class=""><a href="<?= url('boletim-3') ?>"><i class="fas fa-tags"></i><span>III-Trimestre</span></a></li>
+				</ul>
+			</li>
 
             <!-- begin sidebar minify button -->
             <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i

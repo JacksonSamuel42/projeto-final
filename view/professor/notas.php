@@ -11,13 +11,41 @@
 
     $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    // pegando os boletins
+    $stmt = $pdo->prepare("SELECT * FROM boletim WHERE id_aluno = :id AND trimestre = 'I-trimestre'");
+    $stmt->bindValue(":id", $id);
+    $stmt->execute();
+    $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    $resCount = count($res); // contando quantos elementos ele tem
+
+    $stmt = $pdo->prepare("SELECT * FROM boletim WHERE id_aluno = :id AND trimestre = 'II-trimestre'");
+    $stmt->bindValue(":id", $id);
+    $stmt->execute();
+    $resData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    $resCount2 = count($resData); // contando quantos elementos ele tem
+
+    
 
     $stmt = $pdo->prepare("SELECT * FROM tipo_disciplina WHERE classe = :classe
-    AND curso = :curso ");
+    AND curso = :curso");
     $stmt->bindValue(':classe', $data['classe']);
     $stmt->bindValue(':curso', $data['curso']);
     $stmt->execute();
     $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $countDisciplina = count($res); // contando quantos elementos ele tem
+
+    // verificando se o numero de notas no boletim corresponde ao numero de disciplinas desse aluno
+
+    if($resCount >= $countDisciplina) $displayTrimestres2 = '';
+    else $displayTrimestres2 = 'd-none';
+
+    if($resCount2 >= $countDisciplina) $displayTrimestres3 = '';
+    else $displayTrimestres3 = 'd-none'
+
+
 ?>
 
 <!DOCTYPE html>
@@ -92,12 +120,18 @@
                 </a>
             </li>
 
-            <li class="">
-                <a href="<?= url('boletim') ?>">
-                    <i class="fa fa-circle"></i>
-                    <span>Boletim</span>
-                </a>
-            </li>
+            <li class="has-sub">
+				<a href="javascript:;">
+                    <b class="caret"></b>
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Boletins</span>
+				</a>
+				<ul class="sub-menu">
+					<li class=""><a href="<?= url('boletim-1') ?>"><i class="fas fa-tags"></i><span>I-Trimestre</span></a></li>
+					<li class=""><a href="<?= url('boletim-2') ?>"><i class="fas fa-tags"></i><span>II-Trimestre</span></a></li>
+					<li class=""><a href="<?= url('boletim-3') ?>"><i class="fas fa-tags"></i><span>III-Trimestre</span></a></li>
+				</ul>
+			</li>
 
             <!-- begin sidebar minify button -->
             <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i
@@ -136,10 +170,10 @@
                     <li class="nav-item">
                         <a class="nav-link active" data-toggle="tab" href="#primeiro">1º Trimestre</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item <?= $displayTrimestres2?> ">
                         <a class="nav-link" data-toggle="tab" href="#segundo">2º Trimestre</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item <?= $displayTrimestres3 ?>">
                         <a class="nav-link" data-toggle="tab" href="#terceiro">
                             3º Trimestre
                         </a>
@@ -152,11 +186,11 @@
                     </div>
 
                     <div class="tab-pane container p-0" id="segundo">
-                        <h2>Segundo</h2>
+                        <?php include __DIR__. "./nota_aluno/trimestres/segundo.php" ?>
                     </div>
 
                     <div class="tab-pane container p-0" id="terceiro">
-                        <h2>Terceiro</h2>
+                        <?php include __DIR__. "./nota_aluno/trimestres/terceiro.php" ?>
                     </div>
                 </div>
             </div>

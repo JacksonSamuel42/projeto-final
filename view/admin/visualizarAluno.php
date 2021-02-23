@@ -123,15 +123,17 @@
             </li>
 
             <li class="has-sub">
-                <a href="javascript:;">
+				<a href="javascript:;">
                     <b class="caret"></b>
-                    <i class="nav-icon fas fa-print"></i>
-                    <span>Relatórios</span>
-                </a>
-                <ul class="sub-menu">
-                    <li class="active"><a href="/SGN/view/boletim.php"><i class="fas fa-tags"></i> Boletim</a></li>
-                </ul>
-            </li>
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Boletins</span>
+				</a>
+				<ul class="sub-menu">
+					<li class=""><a href="<?= url('boletim-1') ?>"><i class="fas fa-tags"></i><span>I-Trimestre</span></a></li>
+					<li class=""><a href="<?= url('boletim-2') ?>"><i class="fas fa-tags"></i><span>II-Trimestre</span></a></li>
+					<li class=""><a href="<?= url('boletim-3') ?>"><i class="fas fa-tags"></i><span>III-Trimestre</span></a></li>
+				</ul>
+			</li>
 
             <li class="">
                 <a href="javascript:;">

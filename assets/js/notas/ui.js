@@ -23,7 +23,7 @@ export default {
         this.nota2 = document.getElementById('nota2-update');
         this.nota3 = document.getElementById('nota3-update');
         this.dataNota = document.getElementById('data-nota-update');
-        this.trimestre = document.getElementById('trimestre-nota-update');
+        this.trimestre = document.getElementById('trimestre-nota');
         this.idAluno = document.getElementById('id-aluno-update');
         this.idBoletim = document.getElementById('id-boletim');
     },

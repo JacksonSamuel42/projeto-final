@@ -60,7 +60,7 @@
         <ul class="nav nav1">
 			<li class="nav-header">Navigation</li>
 
-            <li class="active">
+            <li class="">
                 <a href="<?= url() ?>">
                     <i class="ion-ios-pulse"></i>
                     <span>Home</span>
@@ -74,12 +74,18 @@
                 </a>
             </li>
 
-            <li class="">
-                <a href="<?= url('boletim') ?>">
-                    <i class="fa fa-circle"></i>
-                    <span>Boletim</span>
-                </a>
-            </li>
+            <li class="active has-sub">
+				<a href="javascript:;">
+                    <b class="caret"></b>
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Boletins</span>
+				</a>
+				<ul class="sub-menu">
+					<li class="active"><a href="<?= url('boletim-1') ?>"><i class="fas fa-tags"></i><span>I-Trimestre</span></a></li>
+					<li class=""><a href="<?= url('boletim-2') ?>"><i class="fas fa-tags"></i><span>II-Trimestre</span></a></li>
+					<li class=""><a href="<?= url('boletim-3') ?>"><i class="fas fa-tags"></i><span>III-Trimestre</span></a></li>
+				</ul>
+			</li>
 
             <!-- begin sidebar minify button -->
             <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i
@@ -167,6 +173,7 @@
                                 <td><?= $row['nome_aluno']?></td>
                                 <td>
                                     <button type="button" data-toggle="modal" data-target="#boletim-modal" class="imprimir btn btn-primary" ><i class="fa fa-eye"></i></button>
+                                    <a href="boletim-1?id=<?= $row['id']?>" class="btn btn-success" ><i class="fa fa-hand-pointer"></i></a>
                                 </td>
                             </tr>
                         <?php
@@ -201,7 +208,7 @@
 <!-- end #content -->
 
 <!-- ================== BEGIN BASE JS ================== -->
-<?php include __DIR__. "./boletim/modal.php"?>
+<?php include __DIR__. "./boletimData/modal1.php"?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
 <script src="../../assets/js/app.min.js"></script>
 <script src="../../assets/js/theme/apple.min.js"></script>

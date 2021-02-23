@@ -131,15 +131,17 @@
             </li>
 
             <li class="has-sub">
-                <a href="javascript:;">
+				<a href="javascript:;">
                     <b class="caret"></b>
-                    <i class="nav-icon fas fa-print"></i>
-                    <span>Relatórios</span>
-                </a>
-                <ul class="sub-menu">
-                    <li class="active"><a href="<?= url('boletim') ?>"><i class="fas fa-tags"></i> Boletim</a></li>
-                </ul>
-            </li>
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Boletins</span>
+				</a>
+				<ul class="sub-menu">
+					<li class=""><a href="<?= url('boletim-1') ?>"><i class="fas fa-tags"></i><span>I-Trimestre</span></a></li>
+					<li class=""><a href="<?= url('boletim-2') ?>"><i class="fas fa-tags"></i><span>II-Trimestre</span></a></li>
+					<li class=""><a href="<?= url('boletim-3') ?>"><i class="fas fa-tags"></i><span>III-Trimestre</span></a></li>
+				</ul>
+			</li>
 
             <li class="">
                 <a href="javascript:;">
@@ -526,7 +528,7 @@
                                     <td><?= $row['turma']?></td>
                                     <td><?= $row['turno']?></td>
                                     <td>
-                                        <a href="/SGN/view/aluno/visualizarAluno.php?aluno=<?= $row['nome_aluno']?>"
+                                        <a href="<?= url('visualizarAluno')?>?aluno=<?= $row['nome_aluno']?>"
                                             class="btn btn-primary"><i class="fa fa-eye"></i></a>
                                         <button type="button" class="deletebtn btn btn-danger"><i class="fa fa-trash"></i></button>
                                     </td>

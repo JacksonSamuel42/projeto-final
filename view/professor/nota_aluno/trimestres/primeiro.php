@@ -1,11 +1,14 @@
-<?php include __DIR__. "../../../code/gestorNotaDel.php" ?>
+<?php 
+    include __DIR__. "../../../code/gestorNotaDel.php";
+?>
+
 <div class="row">
 
 
     <div class="col-lg-3">
-        <div style="overflow: auto;" class="doc-em-falta-container">
+        <div class="doc-em-falta-container">
             <h3 class="semi-text-title">adicionar</h3>
-            <div style="height: 300px;" class="row doc-container">
+            <div class="row doc-container">
 
                 <div class="col-lg-12 content-doc-list-container remove">
                     <div class="content-doc-list content-doc-list-not-add houver-destaque">
@@ -49,7 +52,6 @@
                         }
                     ?>
                 </div>
-
             </div>
         </div>
     </div>
@@ -57,7 +59,7 @@
         <div style="overflow: auto;" class="doc-em-falta-container">
             <h3 class="mb-2 semi-text-title mb-4">Notas adicionadas(clique para editar)</h3>
              <?php
-                $stmt = $pdo->prepare("SELECT * FROM boletim WHERE id_aluno = :id");
+                $stmt = $pdo->prepare("SELECT * FROM boletim WHERE id_aluno = :id AND trimestre = 'I-trimestre'");
                 $stmt->bindValue(":id", $id);
                 $stmt->execute();
                 $res = $stmt->fetchAll(PDO::FETCH_ASSOC);

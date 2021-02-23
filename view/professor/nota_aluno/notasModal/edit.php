@@ -76,8 +76,11 @@
 								</div>
 								<div class="form-group col-lg-6 col-sm-6">
 									<label class="col-form-label">Trimestre</label>
-									<input disabled type="text" value="<?= $data["trimestre"]?>"  id="trimestre-nota-update" name="media-nota"
-										placeholder="1-trimestre"class="form-control" required />
+									<select id="trimestre-nota" class="form-control" name="trimestre-nota" required>
+										<option value="I-trimestre">I-Trimestre</option>
+										<option value="II-trimestre">II-Trimestre</option>
+										<option value="III-trimestre">III-Trimestre</option>
+									</select>
 								</div>
 
 								<div class="form-group col-lg-12 col-sm-6">

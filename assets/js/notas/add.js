@@ -95,7 +95,7 @@ export default {
         };
 
         xhr.send(formData);
-        window.location.reload();
+        setTimeout(() => window.location.reload(), 700)
     },
 
     async message(msg) {

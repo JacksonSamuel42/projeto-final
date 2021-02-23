@@ -1,8 +1,13 @@
 <?php
-	$stmt = $pdo->prepare("SELECT * FROM tipo_disciplina WHERE classe = 10 
-    AND curso = 'informatica'");
+	$stmt = $pdo->prepare("SELECT * FROM tipo_disciplina WHERE classe = :classe
+    AND curso = :curso");
+    $stmt->bindValue(':classe', $data['classe']);
+    $stmt->bindValue(':curso', $data['curso']);
     $stmt->execute();
     $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+	if($resCount >= $countDisciplina) $displayTrimestres2 = '';
+    else $displayTrimestres2 = 'd-none'
 ?>
 
 <div class="modal fade" id="nota-add">
@@ -61,8 +66,11 @@
 								</div>
 								<div class="form-group col-lg-6 col-sm-6">
 									<label class="col-form-label">Trimestre</label>
-									<input disabled type="text" value="1-trimestre" id="trimestre-nota" name="trimestre-nota"
-										placeholder="1-trimestre"class="form-control"  />
+									<select required id="trimestre-nota" class="form-control" name="trimestre-nota">
+										<option value="I-trimestre">I-Trimestre</option>
+										<option class="<?= $displayTrimestres2?>" value="II-trimestre">II-Trimestre</option>
+										<option class="<?= $displayTrimestres3?>" value="III-trimestre">III-Trimestre</option>
+									</select>
 								</div>
 
 								<div class="form-group col-lg-12 col-sm-6">

@@ -2,13 +2,11 @@
 
 include('../../database/db.config.php');
 
-$idA = filter_input(INPUT_GET ,'id', FILTER_SANITIZE_NUMBER_INT);
-$aluno = filter_input(INPUT_GET ,'aluno', FILTER_SANITIZE_STRING);
 
 if(isset($_POST['delete'])){
-
-    $id = addslashes($_POST['id']);
-    $query = "DELETE FROM boletim WHERE id_aluno = $id ";
+    
+    $id = filter_input(INPUT_GET ,'bl', FILTER_SANITIZE_NUMBER_INT);
+    $query = "DELETE FROM boletim WHERE id_boletim = $id ";
     $stmt = $pdo->prepare($query);
     if($stmt->execute()){
         echo "<div class='alert alert-success'>Nota eliminada com sucesso</div>";

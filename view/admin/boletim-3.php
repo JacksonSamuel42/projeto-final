@@ -66,7 +66,7 @@
                     <span>Dashboard</span>
 				</a>
 				<ul class="sub-menu">
-					<li class=""><a href="/SGN/index.php"><i class="fas fa-home"></i><span>Home</span></a></li>
+					<li class=""><a href="<?= url('index') ?>"><i class="fas fa-home"></i><span>Home</span></a></li>
 				</ul>
 			</li>
 
@@ -77,9 +77,9 @@
                     <span>Turno/Turma/Classe</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class=""><a href="/SGN/view/turno.php"><i class="fas fa-tags"></i> Gerir Turno</a></li>
-                    <li class=""><a href="/SGN/view/turma.php"><i class="fas fa-tags"></i> Gerir Turma</a></li>
-                    <li class=""><a href="/SGN/view/classe.php"><i class="fas fa-tags"></i> Gerir Classe</a></li>
+                    <li class="active"><a href="<?= url('turno') ?>"><i class="fas fa-tags"></i> Gerir Turno</a></li>
+                    <li class=""><a href="<?= url('turma') ?>"><i class="fas fa-tags"></i> Gerir Turma</a></li>
+                    <li class=""><a href="<?= url('classe') ?>"><i class="fas fa-tags"></i> Gerir Classe</a></li>
                 </ul>
             </li>
 
@@ -90,7 +90,7 @@
                     <span>Professores</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="active"><a href="/SGN/view/prof/professor.php"><i class="fas fa-tags"></i>Cadastrar professores</a></li>
+                    <li class="active"><a href="<?= url('professor') ?>"><i class="fas fa-tags"></i>Cadastrar professores</a></li>
                 </ul>
             </li>
 
@@ -101,22 +101,21 @@
                     <span>Salas</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class=""><a href="/SGN/view/salas.php"><i class="fas fa-tags"></i> Cadastrar Sala</a>
+                    <li class=""><a href="<?= url('salas') ?>"><i class="fas fa-tags"></i> Cadastrar Sala</a>
                     </li>
                 </ul>
             </li>
 
-            <li class=" has-sub">
+            <li class="has-sub">
                 <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="nav-icon fas fa-bars"></i>
                     <span>Disciplinas</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="active"><a href="/SGN/view/disciplina.php"><i class="fas fa-tags"></i> Gerir Disciplinas</a></li>
+                    <li class=""><a href="<?= url('disciplina') ?>"><i class="fas fa-tags"></i> Gerir Disciplinas</a></li>
                 </ul>
             </li>
-            
 
             <li class="has-sub">
                 <a href="javascript:;">
@@ -125,20 +124,23 @@
                     <span>Alunos</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="active"><a href="/SGN/view/aluno/aluno.php"><i class="fas fa-tags"></i> Cadastrar Alunos</a></li>
+                    <li class="active"><a href="<?= url('aluno') ?>"><i class="fas fa-tags"></i> Cadastrar
+                            Alunos</a></li>
                 </ul>
             </li>
 
-            <li class="has-sub active">
-                <a href="javascript:;">
+            <li class="active has-sub">
+				<a href="javascript:;">
                     <b class="caret"></b>
-                    <i class="nav-icon fas fa-print"></i>
-                    <span>Relatórios</span>
-                </a>
-                <ul class="sub-menu">
-                    <li class="active"><a href="/SGN/view/boletim.php"><i class="fas fa-tags"></i> Boletim</a></li>
-                </ul>
-            </li>
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Boletins</span>
+				</a>
+				<ul class="sub-menu">
+					<li class=""><a href="<?= url('boletim-1') ?>"><i class="fas fa-tags"></i><span>I-Trimestre</span></a></li>
+					<li class=""><a href="<?= url('boletim-2') ?>"><i class="fas fa-tags"></i><span>II-Trimestre</span></a></li>
+					<li class="active"><a href="<?= url('boletim-3') ?>"><i class="fas fa-tags"></i><span>III-Trimestre</span></a></li>
+				</ul>
+			</li>
 
             <li class="">
                 <a href="javascript:;">
@@ -187,15 +189,96 @@
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
     ?>
+    <?php
+        $query = "SELECT * FROM turma";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute();
+        $turma = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $query2 = "SELECT * FROM disciplina";
+        $stmt2 = $pdo->prepare($query2);
+        $stmt2->execute();
+        $disciplina = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
+        $query3 = "SELECT * FROM turno";
+        $stmt3 = $pdo->prepare($query3);
+        $stmt3->execute();
+        $turno = $stmt3->fetchAll(PDO::FETCH_ASSOC);
+
+        $query4 = "SELECT * FROM classes";
+        $stmt4 = $pdo->prepare($query4);
+        $stmt4->execute();
+        $classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+
+        $query5 = "SELECT * FROM salas";
+        $stmt5 = $pdo->prepare($query5);
+        $stmt5->execute();
+        $sala = $stmt5->fetchAll(PDO::FETCH_ASSOC);
+    ?>
 
     
     <!-- begin panel -->
     <div class="panel panel-inverse">
         <div class="panel-heading">
-            <h4 class="panel-title">Gerir Boletim</h4>
-            <div class="panel-heading-btn">
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default"
-                    data-click="panel-expand"><i class="fa fa-expand"></i></a>
+        <div class="col-lg-4">
+                <h4 class="panel-title">Boletim Alunos</h4>
+            </div>
+            <div class="col-lg-8 ">
+                <div class="w-100">
+                    <form method="post" class="float-right form-inline" style="margin-right:-20px">
+
+                        <div class="form group mr-1">
+                            <select class="form-control" name="sala">
+                                <option value="0">sala</option>
+                                <?php
+                                    foreach ($sala as $value) {?>
+                                <option value="<?= $value['nome_sala']?>"><?= $value['nome_sala']?></option>
+                                <?php
+                                    }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="form group mr-1">
+                            <select class="form-control" name="curso">
+                                <option value="0">Curso</option>
+                                <option value="informática">Informática</option>
+                                <option value="eletrónica">Eletrónica</option>
+                            </select>
+                        </div>
+                        <div class="form group mr-1">
+                            <select class="form-control" name="turma">
+                                <option value="">turma</option>
+                                <?php
+                                    foreach ($turma as $value) {?>
+                                <option value="<?= $value['nome_turma']?>"><?= $value['nome_turma']?></option>
+                                <?php
+                                    }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="form group mr-1">
+                            <select class="form-control" name="classe">
+                                <option value="">classe</option>
+                                    <?php
+                                        foreach ($classe as $value) {?>
+                                    <option value="<?= $value['classe']?>"><?= $value['classe']?></option>
+                                    <?php
+                                        }
+                                    ?>
+                            </select>
+                        </div>
+                        <!-- <div class="form group mr-1">
+                                            <input type="date" name="dataInicio" class="form-control">
+                                        </div> -->
+                        <div class="form group mr-1">
+                            <button name="filter-aluno" class="btn btn-primary btn-destaque" type="submit">
+                                Filtrar <i class="fa fa-filter"></i>
+                            </button>
+                        </div>
+
+
+                    </form>
+                </div>
             </div>
         </div>
         <div class="panel-body">
@@ -210,16 +293,51 @@
                 </thead>
                 <tbody>
                     <?php
-                        foreach ($data as $row) {?>
+                    
+                    if(isset($_POST['filter-aluno'])){
+
+                        $sala = addslashes($_POST['sala']);
+                        $curso = addslashes($_POST['curso']);
+                        $turma = addslashes($_POST['turma']);
+                        $classe = addslashes($_POST['classe']);
+
+                        $query = "SELECT * FROM aluno WHERE (classe = '$classe' OR turma = '$turma' OR curso = '$curso' OR sala = '$sala') OR
+                        (classe = '$classe' AND turma = '$turma' AND curso = '$curso' AND sala = '$sala')";
+                        $stmt = $pdo->prepare($query);
+                        $stmt->execute();
+                        $filtro = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                        if($stmt->rowCount()){
+                            foreach ($filtro as $row) {?>
+                                <tr class="odd gradeX">
+                                    <td><?= $row['id']?></td>
+                                    <td><?= $row['nome_aluno']?></td>
+                                    <td>
+                                        <button type="button" data-toggle="modal" data-target="#boletim-modal" class="imprimir btn btn-primary" ><i class="fa fa-eye"></i></button>
+                                        <a href="boletim-3?id=<?= $row['id']?>" class="btn btn-success" ><i class="fa fa-hand-pointer"></i></a>
+                                    </td>
+                                </tr>
+                            <?php
+                            }
+                        }else{
+                            echo "<div class='alert alert-warning'>Nenhum aluno encontrado</div>";
+                        }
+                    }else{
+                        foreach($data as $row){?>
                             <tr class="odd gradeX">
                                 <td><?= $row['id']?></td>
                                 <td><?= $row['nome_aluno']?></td>
                                 <td>
                                     <button type="button" data-toggle="modal" data-target="#boletim-modal" class="imprimir btn btn-primary" ><i class="fa fa-eye"></i></button>
+                                    <a href="boletim-3?id=<?= $row['id']?>" class="btn btn-success" ><i class="fa fa-hand-pointer"></i></a>
                                 </td>
                             </tr>
                         <?php
-                        }
+                            }
+
+                    }
+                    
+
                     ?>
                 </tbody>
             </table>
@@ -250,7 +368,7 @@
 <!-- end #content -->
 
 <!-- ================== BEGIN BASE JS ================== -->
-<?php include __DIR__. "./boletim/modal.php"?>
+<?php include __DIR__. "./boletim/modal3.php"?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
 <script src="../../assets/js/app.min.js"></script>
 <script src="../../assets/js/theme/apple.min.js"></script>

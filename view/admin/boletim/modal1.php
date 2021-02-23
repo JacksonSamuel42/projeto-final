@@ -1,5 +1,32 @@
+
 <div class="container p-5">
     <!-- <h1 class="page-header">PDF Licença</h1> -->
+<?php
+
+    $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+    $query = "SELECT * FROM boletim WHERE id_aluno = :id AND trimestre = 'I-trimestre'";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindValue(':id', $id);
+    $stmt->execute();
+
+    $res = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+
+    $query = "SELECT * FROM aluno WHERE id = :id";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindValue(':id', $id);
+    $stmt->execute();
+
+    $aluno = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    function nota($data){
+        if($data >= 10){
+            echo '<span class="text-blue">'.$data.'</span>';
+        }else{
+            echo '<span class="text-danger">'.$data.'</span>';
+        }
+    }
+
+?>
     <div class="modal fade" id="boletim-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -17,13 +44,16 @@
                             <div class="row">
                                 <div class="col-lg-12 ficha-content-col-12 ficha-heade">
                                     <div class="text-center ficha-top-content">
-                                        <img width="70" src="../assets/img/logo/smartBits-logo.jpg">
+                                        <img width="70" src="../../assets/img/logo/smartBits-logo.jpg">
                                         <p class="ficha-heade-top">
                                             <br>
                                             <b>Instituto Médio Politécnico SmartBits</b>
                                         </p>
                                         <p class="heade-top-data">
                                             Boletim escolar/<?= date('Y')?>
+                                        </p>
+                                        <p class="heade-top-data">
+                                            I-Trimestre
                                         </p>
                                     </div>
                                 </div>
@@ -40,7 +70,15 @@
                             <div class="col-lg-12 ficha-content-col-12 d-flex border p-3">
 
                                 <div class="col-lg-2">
-                                    <img src="../assets/img/logo/default.jpg" width="150" height="180" alt="">
+                                    <?php
+                                        if($aluno['foto'] != null){ ?>
+                                            <img src="../admin/foto/aluno/<?= $aluno['foto'] ?>" width="150" height="180" alt="">
+                                    <?php    
+                                        }else{?>
+                                            <img src="../../assets/img/logo/default.jpg" width="150" height="180" alt="">
+                                    <?php    
+                                        }
+                                    ?>
                                 </div>
                                 <div class="ml-5 mt-3 col-lg-2 float-right">
                                     <h6 class="ficha-text-container text-bold  row">
@@ -60,10 +98,6 @@
                                         <!-- <span class="ml-4">12/04/1995</span> -->
                                     </h6>
                                     <h6 class="ficha-text-container text-bold row">
-                                        <span class="">Sexo:</span>
-                                        <!-- <span class="ml-4">Angolana</span> -->
-                                    </h6>
-                                    <h6 class="ficha-text-container text-bold row">
                                         <span class="">Curso:</span>
                                         <!-- <span class="ml-4">94323658733</span> -->
                                     </h6>
@@ -73,27 +107,23 @@
                                 <div class="mt-3 col-lg-6 float-right">
                                     <h6 class="ficha-text-container row">
                                         <!-- <span class="">Nome Completo:</span> -->
-                                        <span class="ml-4">Jackson Samuel</span>
+                                        <span class="ml-4"><?= $aluno['nome_aluno'] ?></span>
                                     </h6>
                                     <h6 class="ficha-text-container row">
                                         <!-- <span class="">Identificação Nº:</span> -->
-                                        <span class="ml-4">12ª</span>
+                                        <span class="ml-4"><?= $aluno['classe'] ?></span>
                                     </h6>
                                     <h6 class="ficha-text-container row">
                                         <!-- <span class="">Género:</span> -->
-                                        <span class="ml-4">B</span>
+                                        <span class="ml-4"><?= $aluno['turma'] ?></span>
                                     </h6>
                                     <h6 class="ficha-text-container row">
                                         <!-- <span class="">Data Nascimento:</span> -->
-                                        <span class="ml-4">Manhã</span>
-                                    </h6>
-                                    <h6 class="ficha-text-container row">
-                                        <!-- <span class="">Nacionalidade:</span> -->
-                                        <span class="ml-4">Masculino</span>
+                                        <span class="ml-4"><?= $aluno['turno'] ?></span>
                                     </h6>
                                     <h6 class="ficha-text-container row">
                                         <!-- <span class="">Nº Telefone:</span> -->
-                                        <span class="ml-4">Informatica</span>
+                                        <span class="ml-4"><?= $aluno['curso'] ?></span>
                                     </h6>
                                 </div>
 
@@ -120,27 +150,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th scope="row">Matemática</th>
-                                            <td>10</td>
-                                            <td>10</td>
-                                            <td>10</td>
-                                            <td>15</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">TLP</th>
-                                            <td>10</td>
-                                            <td>8</td>
-                                            <td>15</td>
-                                            <td>17</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">SEAC</th>
-                                            <td>8</td>
-                                            <td>5</td>
-                                            <td>10</td>
-                                            <td>8</td>
-                                        </tr>
+                                        <?php
+                                            foreach($res as $row){ ?>
+                                                <tr>
+                                                    <th scope="row"><?= $row['disciplina'] ?></th>
+                                                    <td><?php nota($row['nota1']) ?></td>
+                                                    <td><?php nota($row['nota2']) ?></td>
+                                                    <td><?php nota($row['nota3']) ?></td>
+                                                    <td><?php nota($row['media']) ?></td>
+                                                </tr>
+                                        <?php 
+                                           }
+                                        ?>
                                     </tbody>
                                 </table>
 
