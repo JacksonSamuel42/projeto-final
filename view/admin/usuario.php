@@ -321,7 +321,6 @@ session_start();
                         <th class="text-nowrap">id</th>
                         <th class="text-nowrap">Nome</th>
                         <th class="text-nowrap">Email</th>
-                        <th class="text-nowrap">Senha</th>
                         <th class="text-nowrap">Tipo de Permissão</th>
                         <th class="text-nowrap">Comandos</th>
                     </tr>
@@ -333,7 +332,6 @@ session_start();
                                 <td ><?= $row['user_id']?></td>
                                 <td ><?= $row['name']?></td>
                                 <td ><?= $row['email']?></td>
-                                <td ><?= $row['pass']?></td>
                                 <td ><?= $row['usertype']?></td>
                                 <td>
                                     <!-- <a class="updatebtn btn btn-primary text-white" href="/SGN/view/turno.php?id=<?= $row['id']?>">Editar</a> -->
@@ -354,7 +352,7 @@ session_start();
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Editar Turma</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Editar Usuario</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -366,13 +364,13 @@ session_start();
                                     <input type="hidden" name="update_id" id="update_id" class="form-control mb-3" >
                                     
                                     <label for="">Nome</label>
-                                    <input required type="text" name="update_nome" id="update_nome" class="form-control mb-3"  placeholder="Nome do Turno">
+                                    <input required type="text" name="update_nome" id="update_nome" class="form-control mb-3"  placeholder="Nome">
                                     
                                     <label for="">Email</label>
-                                    <input required type="email" name="update_email" id="update_email" class="form-control mb-3"  placeholder="Nome do Turno">
+                                    <input required type="email" name="update_email" id="update_email" class="form-control mb-3"  placeholder="Email">
                                     
                                     <label for="">Senha</label>
-                                    <input required type="password" name="update_senha" id="update_senha" class="form-control mb-3"  placeholder="Nome do Turno">
+                                    <input required type="password" name="update_senha" id="update_senha" class="form-control mb-3"  placeholder="Senha">
                                     
                                     <label for="">Tipo de Permissão</label>
                                     <select name="update_userType"  class="form-control" id="update_userType">
@@ -397,7 +395,7 @@ session_start();
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h3 class="modal-title text-danger" id="exampleModalLabel">Deletar Turma</h3>
+                            <h3 class="modal-title text-danger" id="exampleModalLabel">Deletar Usuario</h3>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -481,8 +479,8 @@ session_start();
            $('#update_id').val(data[0]);
            $('#update_nome').val(data[1]);
            $('#update_email').val(data[2]);
-           $('#update_senha').val(data[3]);
-           $('#update_userType').val(data[4]);
+        //    $('#update_senha').val(data[3]);
+           $('#update_userType').val(data[3]);
         });
 
         $('.deletebtn').on('click', function(){

@@ -14,10 +14,10 @@ export default {
 
 
         if (
-            this.disciplina.value === '' &&
-            this.nota1.value === '' &&
-            this.nota2.value === '' &&
-            this.nota3.value === '' &&
+            this.disciplina.value === '' ||
+            this.nota1.value === '' ||
+            this.nota2.value === '' ||
+            this.nota3.value === '' ||
             this.dataNota === ''
         ) {
             this.message(
@@ -78,8 +78,8 @@ export default {
         this.dataNota.value = '';
         this.trimestre.value = '';
 
-        $('.modal').removeClass('show');
-        $('.modal-backdrop').remove();
+        // $('.modal').removeClass('show');
+        // $('.modal-backdrop').remove();
 
         const xhr = new XMLHttpRequest();
 

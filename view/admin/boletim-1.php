@@ -182,7 +182,7 @@
     <?php 
         include('../../database/db.config.php');
         
-        $query = "SELECT * FROM aluno";
+        $query = "SELECT * FROM aluno ";
         $stmt = $pdo->prepare($query);
         $stmt->execute();
 
@@ -288,6 +288,7 @@
                     <tr>
                         <th class="text-nowrap">id</th>
                         <th class="text-nowrap">Nome do Aluno</th>
+                        <th class="text-nowrap">Sala do Aluno</th>
                         <th class="text-nowrap">Comandos</th>
                     </tr>
                 </thead>
@@ -312,6 +313,7 @@
                                 <tr class="odd gradeX">
                                     <td><?= $row['id']?></td>
                                     <td><?= $row['nome_aluno']?></td>
+                                    <td><?= $row['sala']?></td>
                                     <td>
                                         <button type="button" data-toggle="modal" data-target="#boletim-modal" class="imprimir btn btn-primary" ><i class="fa fa-eye"></i></button>
                                         <a href="boletim-1?id=<?= $row['id']?>" class="btn btn-success" ><i class="fa fa-hand-pointer"></i></a>
@@ -327,9 +329,10 @@
                             <tr class="odd gradeX">
                                 <td><?= $row['id']?></td>
                                 <td><?= $row['nome_aluno']?></td>
+                                <td><?= $row['sala']?></td>
                                 <td>
                                     <button type="button" data-toggle="modal" data-target="#boletim-modal" class="imprimir btn btn-primary" ><i class="fa fa-eye"></i></button>
-                                    <a href="boletim-1?id=<?= $row['id']?>" class="btn btn-success" ><i class="fa fa-hand-pointer"></i></a>
+                                    <a href="boletim-1?id=<?= $row['id']?>" class="btn btn-secondary" ><i class="fa fa-hand-pointer"></i></a>
                                 </td>
                             </tr>
                         <?php

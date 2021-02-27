@@ -4,7 +4,7 @@
 <?php
 
     $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-    $query = "SELECT * FROM boletim WHERE id_aluno = :id AND trimestre = 'I-trimestre'";
+    $query = "SELECT * FROM boletim_preserv WHERE id_aluno = :id AND trimestre = 'I-trimestre' ORDER BY id_boletim DESC";
     $stmt = $pdo->prepare($query);
     $stmt->bindValue(':id', $id);
     $stmt->execute();

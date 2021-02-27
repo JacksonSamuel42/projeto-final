@@ -59,7 +59,7 @@
         <div style="overflow: auto;" class="doc-em-falta-container">
             <h3 class="mb-2 semi-text-title mb-4">Notas adicionadas(clique para editar)</h3>
              <?php
-                $stmt = $pdo->prepare("SELECT * FROM boletim WHERE id_aluno = :id AND trimestre = 'I-trimestre'");
+                $stmt = $pdo->prepare("SELECT * FROM boletim WHERE id_aluno = :id AND trimestre = 'I-trimestre' ORDER BY id_boletim DESC");
                 $stmt->bindValue(":id", $id);
                 $stmt->execute();
                 $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -97,4 +97,5 @@
             </div>
         </div>
     </div>
+
 </div>

@@ -2,8 +2,8 @@ import ui from './ui.js'
 
 export default {
     async start() {
-        ui.getDefaultElements.call(this);
         ui.getElementEdit.call(this)
+        ui.getDefaultElements.call(this)
         ui.actionNotaEditElement.call(this)
     },
 

@@ -1,5 +1,11 @@
 
 <?php
+	$query = "SELECT * FROM aluno WHERE id = $id ";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
+
+    $resD = $stmt->fetch(PDO::FETCH_ASSOC);
+
 	$idB = filter_input(INPUT_GET ,'bl', FILTER_SANITIZE_NUMBER_INT);
 	$stmt = $pdo->prepare("SELECT * FROM boletim WHERE id_boletim = :id");
 	$stmt->bindValue(":id", $idB);
@@ -8,8 +14,10 @@
 ?>
 
 <?php
-	$stmt = $pdo->prepare("SELECT * FROM tipo_disciplina WHERE classe = 10 
-    AND curso = 'informatica'");
+	$stmt = $pdo->prepare("SELECT * FROM tipo_disciplina WHERE classe = :classe
+    AND curso = :curso");
+    $stmt->bindValue(':classe', $resD['classe']);
+    $stmt->bindValue(':curso', $resD['curso']);
     $stmt->execute();
     $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -78,8 +86,8 @@
 									<label class="col-form-label">Trimestre</label>
 									<select id="trimestre-nota" class="form-control" name="trimestre-nota" required>
 										<option value="I-trimestre">I-Trimestre</option>
-										<option value="II-trimestre">II-Trimestre</option>
-										<option value="III-trimestre">III-Trimestre</option>
+										<option class="<?= $displayTrimestres2?>" value="II-trimestre">II-Trimestre</option>
+										<option class="<?= $displayTrimestres3?>" value="III-trimestre">III-Trimestre</option>
 									</select>
 								</div>
 

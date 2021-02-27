@@ -1,4 +1,10 @@
 <?php
+	$query = "SELECT * FROM aluno WHERE id = $id ";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
+
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
 	$stmt = $pdo->prepare("SELECT * FROM tipo_disciplina WHERE classe = :classe
     AND curso = :curso");
     $stmt->bindValue(':classe', $data['classe']);

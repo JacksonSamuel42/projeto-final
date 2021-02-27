@@ -1,55 +1,12 @@
 <?php 
-    session_start();
+session_start();
     include('../../database/db.config.php');
-    include('../../config/isUser.php');
-
-    $id = filter_input(INPUT_GET ,'id', FILTER_SANITIZE_NUMBER_INT);
-
-    $query = "SELECT * FROM aluno WHERE id = $id ";
-    $stmt = $pdo->prepare($query);
-    $stmt->execute();
-
-    $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    // pegando os boletins
-    $stmt = $pdo->prepare("SELECT * FROM boletim WHERE id_aluno = :id AND trimestre = 'I-trimestre'");
-    $stmt->bindValue(":id", $id);
-    $stmt->execute();
-    $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    $resCount = count($res); // contando quantos elementos ele tem
-
-    $stmt = $pdo->prepare("SELECT * FROM boletim WHERE id_aluno = :id AND trimestre = 'II-trimestre'");
-    $stmt->bindValue(":id", $id);
-    $stmt->execute();
-    $resData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    $resCount2 = count($resData); // contando quantos elementos ele tem
-
-    
-
-    $stmt = $pdo->prepare("SELECT * FROM tipo_disciplina WHERE classe = :classe
-    AND curso = :curso");
-    $stmt->bindValue(':classe', $data['classe']);
-    $stmt->bindValue(':curso', $data['curso']);
-    $stmt->execute();
-    $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    $countDisciplina = count($res); // contando quantos elementos ele tem
-
-    // verificando se o numero de notas no boletim corresponde ao numero de disciplinas desse aluno
-
-    if($resCount >= $countDisciplina) $displayTrimestres2 = '';
-    else $displayTrimestres2 = 'd-none';
-
-    if($resCount2 >= $countDisciplina) $displayTrimestres3 = '';
-    else $displayTrimestres3 = 'd-none'
-
-
+    include('../../config/isUser.php') 
 ?>
 
-<!-- <!DOCTYPE html> -->
-<html lang="pt">
+
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
@@ -66,16 +23,14 @@
 
     <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
     <link href="../../assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-    <link href="../../assets/plugins/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+    <link href="../../assets/plugins/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css"
+        rel="stylesheet" />
     <link href="../../assets/plugins/datatables.net-autofill-bs4/css/autofill.bootstrap4.min.css" rel="stylesheet" />
 
-    <link rel="stylesheet" href="../../assets/css/custom.css">
-    <link rel="stylesheet" href="../../assets/css/recibo.css">
     <!-- ================== END PAGE LEVEL STYLE ================== -->
 </head>
 
 <?php include('./partials/header.php') ?>
-
 
 <!-- begin #sidebar -->
 <div id="sidebar" class="sidebar">
@@ -146,77 +101,115 @@
 
 <div class="sidebar-bg"></div>
 <!-- end #sidebar -->
-
+<!-- end #sidebar -->
 
 <!-- begin #content -->
 <div id="content" class="content">
     <!-- begin breadcrumb -->
     <ol class="breadcrumb float-xl-right">
-        <li class="breadcrumb-item"><a href="javascript:;">Notas</a></li>
+        <li class="breadcrumb-item"><a href="/SGN/admin/">Usuário</a></li>
+        <li class="breadcrumb-item"><a href="javascript:;">Perfil</a></li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">Notas</small></h1>
-    
-    <!-- begin panel -->
+    <h1 class="page-header">Perfil</small></h1>
+
+
     <div class="panel panel-inverse">
+
         <div class="panel-heading">
-            <!-- <h4 class="panel-title">Sala</h4> -->
+            <h4 class="panel-title">Perfil</h4>
+            <div class="panel-heading-btn"></div>
         </div>
+
         <div class="panel-body">
 
-        <div class="col-lg-12 pr-0">
-            <div class="bg-white" style="border-radius:5px">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#primeiro">1º Trimestre</a>
-                    </li>
-                    <li class="nav-item <?= $displayTrimestres2?> ">
-                        <a class="nav-link" data-toggle="tab" href="#segundo">2º Trimestre</a>
-                    </li>
-                    <li class="nav-item <?= $displayTrimestres3 ?>">
-                        <a class="nav-link" data-toggle="tab" href="#terceiro">
-                            3º Trimestre
+        <?php include __DIR__. "../code/credencias.php";?>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Editar Perfil</h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="<?= url('perfil')?>" method="post" enctype="multipart/form-data">
+                            <div class="row">
+                                <input type="hidden" value="<?= $data['user_id']?>" name="id">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Foto</label>
+                                        <input type="file" name="foto" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Nome</label>
+                                        <input type="text" value="<?= $data['name']?>" name="name" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Email</label>
+                                        <input type="email" value="<?= $data['email']?>" name="email" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Senha Atual</label>
+                                        <input type="password" name="aPass" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Nova Senha</label>
+                                        <input type="password" name="nPass" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" name="editar" class="btn btn-primary pull-right">Atualizar Perfil</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" >
+                <div class="card card-profile" style="height: 285px;">
+                    <div class="card-avatar mt-2">
+                        <a href="javascript:;">
+                        <?php
+                            if($data['foto'] == NULL){?>
+                            <img src="../admin/foto/professor/default.jpg" width="180"
+                                class="rounded-circle d-flex justify-content-center m-auto">
+                            <?php
+                                }else{?>
+                            <img class="rounded-circle d-flex justify-content-center m-auto" width="180"
+                                src="../admin/foto/professor/<?= $data['foto']?>" alt="">
+                            <?php
+                                }
+                        ?>
                         </a>
-                    </li>
-                </ul>
-                <!-- Tab panes -->
-                <div class="tab-content" style="height: 420px;background-color: #fff; overflow: auto;">
-                    <div class="tab-pane active container p-0" id="primeiro">
-                        <?php include __DIR__. "./nota_aluno/trimestres/primeiro.php" ?>
                     </div>
-
-                    <div class="tab-pane container p-0" id="segundo">
-                        <?php include __DIR__. "./nota_aluno/trimestres/segundo.php" ?>
-                    </div>
-
-                    <div class="tab-pane container p-0" id="terceiro">
-                        <?php include __DIR__. "./nota_aluno/trimestres/terceiro.php" ?>
+                    <div class="card-body">
+                        <h6 class="card-category text-gray"><?= $data['email']?></h6>
+                        <h4 class="card-title"><?= $data['name']?></h4> <br>
                     </div>
                 </div>
             </div>
         </div>
-
-        <form action="<?= url('notas') ?>?aluno=<?= $data['nome_aluno']?>&id=<?= $data['id']?>">
-            <button type="submit" class="float-right btn btn-destaque">Limpar Notas</button>
-        </form>
-
         </div>
+
     </div>
 
-
 </div>
-
-<?php
-    include __DIR__. "./nota_aluno/notasModal/adicionar.php";
-    include __DIR__. "./nota_aluno/notasModal/edit.php";
-    include __DIR__. "./nota_aluno/notasModal/delete.php";
-?>
 <!-- end #content -->
 
 <!-- begin scroll to top btn -->
-<a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade"
-    data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
+<a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i
+        class="fa fa-angle-up"></i></a>
 <!-- end scroll to top btn -->
 </div>
 <!-- end page container -->
@@ -228,10 +221,10 @@
 <!-- end #content -->
 
 <!-- ================== BEGIN BASE JS ================== -->
-<script src="../../assets/js/babel.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+    integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+    crossorigin="anonymous"></script>
 <script src="../../assets/js/app.min.js"></script>
-<script src="../../assets/js/notas/index.js" type="module"></script>
 <script src="../../assets/js/theme/apple.min.js"></script>
 <!-- ================== END BASE JS ================== -->
 <!-- ================== BEGIN PAGE LEVEL JS ================== -->
@@ -243,9 +236,8 @@
 <script src="../../assets/plugins/datatables.net-autofill-bs4/js/autofill.bootstrap4.min.js"></script>
 <script src="../../assets/js/demo/table-manage-autofill.demo.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<!-- <script src="../../assets/js/activelink.js"></script> -->
+<!-- <script src="../assets/js/activelink.js"></script> -->
 <!-- ================== END PAGE LEVEL JS ================== -->
-
 
 </body>
 

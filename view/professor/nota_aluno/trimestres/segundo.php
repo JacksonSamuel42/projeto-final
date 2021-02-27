@@ -1,5 +1,11 @@
 <?php 
     include __DIR__. "../../../code/gestorNotaDel.php";
+
+    $query = "SELECT * FROM aluno WHERE id = $id ";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
+
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
     
     $stmt = $pdo->prepare("SELECT * FROM tipo_disciplina WHERE classe = :classe
     AND curso = :curso");
@@ -69,7 +75,7 @@
         <div style="overflow: auto;" class="doc-em-falta-container">
             <h3 class="mb-2 semi-text-title mb-4">Notas adicionadas(clique para editar)</h3>
              <?php
-                $stmt = $pdo->prepare("SELECT * FROM boletim WHERE id_aluno = :id AND trimestre = 'II-trimestre'");
+                $stmt = $pdo->prepare("SELECT * FROM boletim WHERE id_aluno = :id AND trimestre = 'II-trimestre' ORDER BY id_boletim DESC");
                 $stmt->bindValue(":id", $id);
                 $stmt->execute();
                 $res = $stmt->fetchAll(PDO::FETCH_ASSOC);

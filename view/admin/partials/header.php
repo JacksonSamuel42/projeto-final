@@ -15,14 +15,7 @@
 
     <!-- begin header-nav -->
     <ul class="navbar-nav navbar-right">
-        <li class="navbar-form">
-            <form action="" method="POST" name="search_form">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Enter keyword" />
-                    <button type="submit" class="btn btn-search"><i class="ion-ios-search"></i></button>
-                </div>
-            </form>
-        </li>
+        
         <li class="dropdown">
             <a href="#" data-toggle="dropdown" class="dropdown-toggle icon">
                 <i class="ion-ios-notifications"></i>
@@ -38,11 +31,25 @@
         <li class="dropdown navbar-user">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <div class="image image-icon bg-black text-grey-darker">
-                    <i class="fa fa-user"></i>
+
+                <?php
+                    include __DIR__. '../../code/credencias.php';
+                    
+                    if($data['foto'] == NULL){?>
+                    <img src=".foto/professor/default.jpg" width="180"
+                        class="rounded-circle d-flex justify-content-center m-auto">
+                    <?php
+                        }else{?>
+                    <img class="rounded-circle d-flex justify-content-center m-auto" width="180"
+                        src="./foto/professor/<?= $data['foto']?>" alt="">
+                    <?php
+                        }
+                ?>
                 </div>
                 <span class="d-none d-md-inline"></span> <b class="caret"></b>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
+                <a href="<?= url('perfil') ?>" class="dropdown-item">Perfil</a>
                 <a href="<?= url('logout') ?>" class="dropdown-item">Sair</a>
             </div>
         </li>

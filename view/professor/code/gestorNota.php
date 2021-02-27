@@ -35,7 +35,25 @@ if(isset($res)){
         $stmt->bindParam(":data",$data_nota);  // $stmt->bindValue(':cand_id', $candidato_id);
 
      
-        $stmt->execute();
+        if($stmt->execute()){
+            $stmt = $pdo->prepare("INSERT INTO boletim_preserv( nota1, nota2, nota3,disciplina, data, trimestre, media, id_aluno) 
+            VALUES(:nota1,:nota2,:nota3,:disciplina,:data, :trimestre, :media, :id_aluno)");
+
+            $stmt->bindParam(":nota1",$nota1);
+            $stmt->bindParam(":nota2",$nota2);
+            $stmt->bindParam(":nota3",$nota3);
+            $stmt->bindParam(":disciplina",$disciplina);
+            $stmt->bindParam(":trimestre",$trimestre);
+            $stmt->bindParam(":media",$media);
+            $stmt->bindParam(":id_aluno",$id_aluno);
+            $stmt->bindParam(":data",$data_nota); 
+
+            if($stmt->execute()){
+                echo "<div class='text-center alert alert-success'>Nota adicionada com sucesso</div>";
+            }else{
+                echo "<div class='text-center alert alert-warning'>Erro ao adicionar nota</div>";
+            }
+        }
 
         header('refresh: 1');
 
