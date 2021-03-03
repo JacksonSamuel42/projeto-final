@@ -219,8 +219,13 @@
     
     <!-- begin panel -->
     <div class="panel panel-inverse">
+
+        <div class="row">
+            
+        </div>
+
         <div class="panel-heading">
-        <div class="col-lg-4">
+            <div class="col-lg-4">
                 <h4 class="panel-title">Boletim Alunos</h4>
             </div>
             <div class="col-lg-8 ">

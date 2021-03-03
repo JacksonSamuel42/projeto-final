@@ -1,7 +1,7 @@
 <?php 
     session_start();
     include('../../database/db.config.php');
-    include('../../config/isUser.php') 
+    include('../../config/isUser.php');
 ?>
 
 <!DOCTYPE html>
@@ -174,7 +174,14 @@
     <?php 
         include('../../database/db.config.php');
 
+        // Gerando numero randomico de 1 a 8
+
+        
         if(isset($_POST['inserir'])){
+            $numero_de_bytes = 4;
+    
+            $restultado_bytes = random_bytes($numero_de_bytes);
+            $resultado_final = bin2hex($restultado_bytes);
 
             // $id = addslashes($_POST['id']);
             $nome_professor = addslashes($_POST['nome_aluno']);
@@ -190,21 +197,22 @@
             $desc = addslashes($_POST['desc']) ? $_POST['desc'] : NULL;
             $foto = addslashes($_FILES['foto']['name']);
 
-            $target = "../foto/aluno/".basename($_FILES['foto']['name']);
+            $target = "./foto/aluno/".basename($_FILES['foto']['name']);
 
             $validation_img_extension = $_FILES['foto']['type'] == "image/jpg" || 
             $_FILES['foto']['type'] == "image/png" ||
             $_FILES['foto']['type'] == "image/jpeg";
 
             if($validation_img_extension){
-                $query = "INSERT INTO aluno (nome_aluno, turma, sala, classe, curso, turno, nome_responsavel, email, sexo, descricao, foto, created_at, updated_at) 
-                VALUES (:prof, :turma, :sala, :classe, :curso, :turno, :responsavel, :email, :sexo, :desc, :foto, NOW(), NULL)";
+                $query = "INSERT INTO aluno (nome_aluno, turma, sala, classe, curso, codigo_aluno, turno, nome_responsavel, email, sexo, descricao, foto, created_at, updated_at) 
+                VALUES (:prof, :turma, :sala, :classe, :curso, :cod, :turno, :responsavel, :email, :sexo, :desc, :foto, NOW(), NULL)";
                 $stmt = $pdo->prepare($query);
                 $stmt->bindValue(":prof", $nome_professor);
                 $stmt->bindValue(":turma", $turma);
                 $stmt->bindValue(":sala", $sala);
                 $stmt->bindValue(":classe", $classe);
                 $stmt->bindValue(":curso", $curso);
+                $stmt->bindValue(":cod", $resultado_final);
                 $stmt->bindValue(":turno", $turno);
                 $stmt->bindValue(":responsavel", $responsavel);
                 $stmt->bindValue(":email", $email);
@@ -237,7 +245,7 @@
             } 
         }
         
-        $query = "SELECT * FROM aluno";
+        $query = "SELECT * FROM aluno ORDER BY id DESC";
         $stmt = $pdo->prepare($query);
         $stmt->execute();
 
@@ -269,6 +277,7 @@
         $stmt5 = $pdo->prepare($query5);
         $stmt5->execute();
         $sala = $stmt5->fetchAll(PDO::FETCH_ASSOC);
+
     ?>
 
     <!-- begin page-header -->
@@ -507,7 +516,7 @@
                                         <td><?= $row['turma']?></td>
                                         <td><?= $row['turno']?></td>
                                         <td>
-                                            <a href="<?= url('visualizarAluno') ?>?aluno=<?= $row['nome_aluno']?>"
+                                            <a href="<?= url('visualizarAluno') ?>?aluno=<?= $row['id']?>"
                                                 class="btn btn-primary"><i class="fa fa-eye"></i></a>
                                             <button type="button" class="deletebtn btn btn-danger"><i class="fa fa-trash"></i></button>
                                         </td>
@@ -528,7 +537,7 @@
                                     <td><?= $row['turma']?></td>
                                     <td><?= $row['turno']?></td>
                                     <td>
-                                        <a href="<?= url('visualizarAluno')?>?aluno=<?= $row['nome_aluno']?>"
+                                        <a href="<?= url('visualizarAluno')?>?aluno=<?= $row['id']?>"
                                             class="btn btn-primary"><i class="fa fa-eye"></i></a>
                                         <button type="button" class="deletebtn btn btn-danger"><i class="fa fa-trash"></i></button>
                                     </td>

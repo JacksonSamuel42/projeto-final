@@ -130,19 +130,26 @@
 
         $sala = $resData['sala'];
         $turno = $resData['turno'];
+        $curso = $resData['curso'];
+        $turma = $resData['turma'];
     ?>
+
+
     <?php 
-    
-        $query = "SELECT * FROM aluno WHERE sala = :s AND turno = :t";
+        
+        $query = "SELECT * FROM aluno WHERE sala = :s AND turno = :t AND curso = :c AND turma = :tu";
         $stmt = $pdo->prepare($query);
         $stmt->bindValue(':s', $sala);
         $stmt->bindValue(':t', $turno);
+        $stmt->bindValue(':c', $curso);
+        $stmt->bindValue(':tu', $turma);
         $stmt->execute();
 
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC); 
         if(!$data){
             echo "<div class='alert alert-warning'>Nenhum aluno encontrado</div>";
         }
+
     ?>
 
     

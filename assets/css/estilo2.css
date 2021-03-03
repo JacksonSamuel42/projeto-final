@@ -1,0 +1,10 @@
+body{
+	display: flex ;
+	justify-content: center ;
+	align-items: center ;
+}
+
+.container {
+	width: 90% !important;
+	max-width: 800px !important;
+}

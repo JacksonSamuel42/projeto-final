@@ -1,0 +1,13 @@
+#home {
+	background: #ffc107;
+	color: rgb(48, 41, 41);
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+h2, p{
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}

@@ -54,7 +54,7 @@
             </li>
             <li>
                 <ul class="nav nav-profile">
-                    <li><a href="/SGN/view/usuario.php"><i class="ion-ios-cog"></i> Usuários do sistema</a></li>
+                    <li class="active"><a href="<?= url('usuario') ?>"><i class="ion-ios-cog"></i>Usuários do sistema</a></li>
                 </ul>
             </li>
         </ul>
@@ -62,27 +62,28 @@
         <!-- end sidebar user -->
         <!-- begin sidebar nav -->
         <ul class="nav nav1">
-            <li class="nav-header">Navigation</li>
-            <li class="has-sub">
-                <a href="javascript:;">
+			<li class="nav-header">Navigation</li>
+			<li class=" has-sub">
+				<a href="javascript:;">
                     <b class="caret"></b>
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
-                </a>
-                <ul class="sub-menu">
-                    <li class=""><a href="/SGN/index.php"><i class="fas fa-home"></i><span>Home</span></a></li>
-                </ul>
-            </li>
+				</a>
+				<ul class="sub-menu">
+					<li class=""><a href="<?= url('index') ?>"><i class="fas fa-home"></i><span>Home</span></a></li>
+				</ul>
+			</li>
 
             <li class="has-sub">
                 <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="nav-icon fas fa-copy"></i>
-                    <span>Turno e Turma</span>
+                    <span>Turno/Turma/Classe</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class=""><a href="/SGN/view/turno.php"><i class="fas fa-tags"></i> Gerir Turnos</a></li>
-                    <li class=""><a href="/SGN/view/turma.php"><i class="fas fa-tags"></i> Gerir Turma</a></li>
+                    <li class=""><a href="<?= url('turno') ?>"><i class="fas fa-tags"></i> Gerir Turno</a></li>
+                    <li class=""><a href="<?= url('turma') ?>"><i class="fas fa-tags"></i> Gerir Turma</a></li>
+                    <li class=""><a href="<?= url('classe') ?>"><i class="fas fa-tags"></i> Gerir Classe</a></li>
                 </ul>
             </li>
 
@@ -93,8 +94,19 @@
                     <span>Professores</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class=""><a href="/SGN/view/prof/professor.php"><i class="fas fa-tags"></i>Cadastrar
-                            professores</a></li>
+                    <li class="active"><a href="<?= url('professor') ?>"><i class="fas fa-tags"></i>Cadastrar professores</a></li>
+                </ul>
+            </li>
+
+            <li class="has-sub">
+                <a href="javascript:;">
+                    <b class="caret"></b>
+                    <i class="nav-icon fas fa-bars"></i>
+                    <span>Salas</span>
+                </a>
+                <ul class="sub-menu">
+                    <li class=""><a href="<?= url('salas') ?>"><i class="fas fa-tags"></i> Cadastrar Sala</a>
+                    </li>
                 </ul>
             </li>
 
@@ -105,8 +117,7 @@
                     <span>Disciplinas</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class=""><a href="/SGN/view/disciplina.php"><i class="fas fa-tags"></i> Gerir Disciplinas</a>
-                    </li>
+                    <li class=""><a href="<?= url('disciplina') ?>"><i class="fas fa-tags"></i> Gerir Disciplinas</a></li>
                 </ul>
             </li>
 
@@ -117,8 +128,8 @@
                     <span>Alunos</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="active"><a href="/SGN/view/aluno/aluno.php"><i class="fas fa-tags"></i> Cadastrar Aluno</a>
-                    </li>
+                    <li class="active"><a href="<?= url('aluno') ?>"><i class="fas fa-tags"></i> Cadastrar
+                            Alunos</a></li>
                 </ul>
             </li>
 
@@ -223,8 +234,8 @@
 
         }
 
-        $prof = filter_input(INPUT_GET, 'aluno', FILTER_SANITIZE_STRING);
-        $query = "SELECT * FROM aluno WHERE nome_aluno = '$prof'";
+        $aluno = filter_input(INPUT_GET, 'aluno', FILTER_SANITIZE_NUMBER_INT);
+        $query = "SELECT * FROM aluno WHERE id = $aluno";
         $stmt = $pdo->prepare($query);
         $stmt->execute();
 
@@ -295,7 +306,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="col-lg-8">
+                                    <div class="col-lg-4">
                                         <label>Turno</label>
                                         <select class="form-control mb-3" name="turno" id="">
                                             <option value="<?= $data['turno']?>"><?= $data['turno']?></option>
@@ -307,6 +318,11 @@
                                                 }
                                             ?>
                                         </select>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <label>Código do aluno</label>
+                                        <input required type="text" disabled value="<?= $data['codigo_aluno']?>" class="form-control mb-3">
                                     </div>
 
                                     <div class="col-lg-4">

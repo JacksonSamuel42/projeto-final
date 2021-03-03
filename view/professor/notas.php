@@ -26,6 +26,13 @@
     
     $resCount2 = count($resData); // contando quantos elementos ele tem
 
+    $stmt = $pdo->prepare("SELECT * FROM boletim WHERE id_aluno = :id AND trimestre = 'III-trimestre'");
+    $stmt->bindValue(":id", $id);
+    $stmt->execute();
+    $resData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    $resCount3 = count($resData); // contando quantos elementos ele tem
+
     
 
     $stmt = $pdo->prepare("SELECT * FROM tipo_disciplina WHERE classe = :classe
@@ -35,7 +42,8 @@
     $stmt->execute();
     $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $countDisciplina = count($res); // contando quantos elementos ele tem
+    $countDisciplina = count($res); 
+    // contando quantos elementos ele tem
 
     // verificando se o numero de notas no boletim corresponde ao numero de disciplinas desse aluno
 
@@ -43,7 +51,10 @@
     else $displayTrimestres2 = 'd-none';
 
     if($resCount2 >= $countDisciplina) $displayTrimestres3 = '';
-    else $displayTrimestres3 = 'd-none'
+    else $displayTrimestres3 = 'd-none';
+
+    if($resCount3 >= $countDisciplina) $displayTrimestres4 = '';
+    else $displayTrimestres4= 'd-none'
 
 
 ?>
@@ -197,8 +208,21 @@
             </div>
         </div>
 
-        <form action="<?= url('notas') ?>?aluno=<?= $data['nome_aluno']?>&id=<?= $data['id']?>">
-            <button type="submit" class="float-right btn btn-destaque">Limpar Notas</button>
+        <?php
+            if(isset($_POST['boletim-clean'])){
+                $query = "DELETE FROM boletim WHERE id_aluno = $id";
+                $stmt = $pdo->prepare($query);
+                
+                if($stmt->execute()){
+                    echo "<div class='alert alert-success'>Boletim limpo com sucesso</div>";
+                }else{
+                    echo "<div classe='alert alert-danger'>Erro ao limpar boletim</div>";
+                }
+            }
+        ?>
+
+        <form action="notas?aluno=<?= $data['nome_aluno']?>&id=<?= $data['id']?>" method="POST">
+            <button type="submit" name="boletim-clean" class="<?= $displayTrimestres4 ?> float-right btn btn-destaque">Limpar Notas</button>
         </form>
 
         </div>
