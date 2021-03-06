@@ -1,4 +1,6 @@
 <?php
+include __DIR__ . "../../../vendor/autoload.php";
+
 define("ROOT", "http://localhost/SGN/view/admin");
 
 function url(string $uri = null): string

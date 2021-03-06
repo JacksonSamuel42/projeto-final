@@ -174,57 +174,6 @@
     <!-- end page-header -->
 
     <?php 
-        include('../../database/db.config.php');
-
-        if(isset($_POST['inserir'])){
-
-            // $id = addslashes($_POST['id']);
-            $nome_professor = addslashes($_POST['nome_professor']);
-            $turma = addslashes($_POST['turma']);
-            $sala = addslashes($_POST['sala']);
-            $classe = addslashes($_POST['classe']);
-            $turno = addslashes($_POST['turno']);
-            $formacao = addslashes($_POST['formacao']);
-            $email = addslashes($_POST['email']);
-            $sexo = addslashes($_POST['sexo']);
-            $curso = addslashes($_POST['curso']);
-            $disciplina = addslashes($_POST['disciplina']);
-            $desc = addslashes($_POST['desc']) ? $_POST['desc'] : NULL;
-            $foto = addslashes($_FILES['foto']['name']);
-
-            $target = "../foto/professor/".basename($_FILES['foto']['name']);
-
-            $validation_img_extension = $_FILES['foto']['type'] == "image/jpg" || 
-            $_FILES['foto']['type'] == "image/png" ||
-            $_FILES['foto']['type'] == "image/jpeg";
-
-            if($validation_img_extension){
-                $query = "INSERT INTO professores (nome_professor, turma, sala, classe, disciplina, curso, turno, formacao, email, sexo, descricao, foto, created_at, updated_at) 
-                VALUES (:prof, :turma, :sala, :classe, :disc, :curso, :turno, :formacao, :email, :sexo, :desc, :foto, NOW(), NULL)";
-                $stmt = $pdo->prepare($query);
-                $stmt->bindValue(":prof", $nome_professor);
-                $stmt->bindValue(":turma", $turma);
-                $stmt->bindValue(":sala", $sala);
-                $stmt->bindValue(":classe", $classe);
-                $stmt->bindValue(":disc", $disciplina);
-                $stmt->bindValue(":curso", $curso);
-                $stmt->bindValue(":turno", $turno);
-                $stmt->bindValue(":formacao", $formacao);
-                $stmt->bindValue(":email", $email);
-                $stmt->bindValue(":sexo", $sexo);
-                $stmt->bindValue(":desc", $desc);
-                $stmt->bindValue(":foto", $foto);
-
-                if($stmt->execute()){
-                    move_uploaded_file($_FILES["foto"]["tmp_name"], $target);
-                    echo "<div class='alert alert-success'><h5>Inserido com sucesso</h5></div>";
-                }else{
-                    echo "<div class='alert alert-danger'><h5>Não inserido</h5></div>";
-                }    
-            }else{
-                echo "<div class='alert alert-warning'><h5>apenas png, jpg e jpeg são permitidos</h5></div>";
-            }
-        }
 
         if(isset($_POST['deletedata'])){
             // $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
@@ -294,8 +243,9 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form  name="wysihtml5" action="<?= url('professor') ?>" enctype="multipart/form-data" method="POST">
+                        <form  id="insert-professor" enctype="multipart/form-data" method="POST">
                             <div class="modal-body">
+                                <div id="resultado"></div>
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <label>Foto</label>
@@ -303,7 +253,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <label>Nome</label>
-                                        <input required type="text" name="nome_professor" class="form-control mb-3" placeholder="Nome do Professor">
+                                        <input type="text" name="nome_professor" class="form-control mb-3" placeholder="Nome do Professor">
                                     </div>
 
                                     <div class="col-lg-4">
@@ -407,7 +357,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                                <button type="submit" name="inserir" class="btn btn-primary">Salvar</button>
+                                <button type="submit" class="btn btn-primary">Salvar</button>
                             </div>
                         </form>
                     </div>
@@ -461,62 +411,6 @@
 </div>
 <!-- end #content -->
 
-<!-------------------------------------- Modal Editar ----------------------------->
-
-<!-- <div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Editar</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form  name="wysihtml5" action="<?= url('professor') ?>" enctype="multipart/form-data" method="POST">
-                <div class="modal-body">
-                    <div style="max-width: 400px;margin: auto;display: flex;flex-direction: column;justify-content: center; align-items: center;">
-                        <input required type="hidden" name="update_id" class="form-control mb-3" >
-                        <input type="file" name="update_foto" class="form-control mb-3">
-                        <input required type="text" name="update_professor" class="form-control mb-3" placeholder="Nome do Professor">
-                        <select class="form-control mb-3" name="update_turma" id="">
-                            <option value="">Turma</option>
-                            <?php
-                                foreach ($turno as $value) {?>
-                                    <option value="<?= $value['nome_turma']?>"><?= $value['nome_turma']?></option>
-                                <?php
-                                }
-                            ?>
-                        </select>
-                        <select class="form-control mb-3" name="update_classe" id="">
-                            <option value="">Classe</option>
-                            <?php
-                                foreach ($turno as $value) {?>
-                                    <option value="<?= $value['classe']?>"><?= $value['classe']?></option>
-                                <?php
-                                }
-                            ?>
-                        </select>
-                        <select class="form-control mb-3" name="update_disciplina" id="">
-                            <option value="">Disciplina</option>
-                            <?php
-                                foreach ($disciplina as $disc) {?>
-                                    <option value="<?= $disc['nome_disciplina']?>"><?= $disc['nome_disciplina']?></option>
-                                <?php
-                                }
-                            ?>
-                        </select>
-                        <textarea class="textarea form-control" name="update_desc" id="wysihtml5"  placeholder="Descrição do professor" rows="12"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                    <button type="submit" name="update" class="btn btn-primary">Salvar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div> -->
-<!---------------------------------- end Modal editar ------------------------------->
 
 <!-------------------------------- Modal Deletar ------------------------------------>
 <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -570,6 +464,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
 <script src="../../assets/js/app.min.js"></script>
 <script src="../../assets/js/theme/apple.min.js"></script>
+<script src="../../assets/js/ajax/professorInsert.js"></script>
 <!-- ================== END BASE JS ================== -->
 <!-- ================== BEGIN PAGE LEVEL JS ================== -->
 <script src="../../assets/plugins/datatables.net/js/jquery.dataTables.min.js"></script>

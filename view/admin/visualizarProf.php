@@ -181,61 +181,6 @@
     <?php 
         include('../../database/db.config.php');
 
-        if(isset($_POST['updatedata'])){
-
-            $id = addslashes($_POST['id']);
-            $nome_professor = addslashes($_POST['nome']);
-            $turma = addslashes($_POST['turma']);
-            $sala = addslashes($_POST['sala']);
-            $classe = addslashes($_POST['classe']);
-            $disciplina = addslashes($_POST['disciplina']);
-            $turno = addslashes($_POST['turno']);
-            $email = addslashes($_POST['email']);
-            $formacao = addslashes($_POST['formacao']);
-            $sexo = addslashes($_POST['sexo']);
-            $curso = addslashes($_POST['curso']);
-            $disciplina = addslashes($_POST['disciplina']);
-            $desc = addslashes($_POST['desc']);
-            $foto = addslashes($_FILES['foto']['name']);
-
-            $target = "../foto/professor/".basename($_FILES['foto']['name']);
-
-            $validation_img_extension = $_FILES['foto']['type'] == "image/jpg" || 
-            $_FILES['foto']['type'] == "image/png" ||
-            $_FILES['foto']['type'] == "image/jpeg";
-
-            if($validation_img_extension){
-                $sql = "UPDATE professores SET nome_professor = :prof, turma = :turma, sala = :sala, classe = :classe, disciplina = :disc, 
-                turno = :turno, curso = :curso, formacao = :formacao, email = :email, sexo = :sexo, descricao = :desc, foto = :foto, updated_at = NOW() WHERE id = :id";
-                $stmt = $pdo->prepare($sql);
-
-                $stmt->bindValue(":id", $id);
-                $stmt->bindValue(":prof", $nome_professor);
-                $stmt->bindValue(":turma", $turma);
-                $stmt->bindValue(":sala", $sala);
-                $stmt->bindValue(":classe", $classe);
-                $stmt->bindValue(":curso", $curso);
-                $stmt->bindValue(":turno", $turno);
-                $stmt->bindValue(":formacao", $formacao);
-                $stmt->bindValue(":email", $email);
-                $stmt->bindValue(":sexo", $sexo);
-                $stmt->bindValue(":disc", $disciplina);
-                $stmt->bindValue(":desc", $desc);
-                $stmt->bindValue(":foto", $foto);
-
-                if($stmt->execute()){
-                    move_uploaded_file($_FILES["foto"]["tmp_name"], $target);
-                    echo "<div class='alert alert-success'><h5>atualizado com sucesso</h5></div>";
-                    // header("Refresh: 5; url=professor.php");
-                }else{
-                    echo "<div class='alert alert-danger'><h5>erro ao atualizar</h5></div>";
-                }    
-            }else{
-                echo "<div class='alert alert-warning'><h5>apenas png, jpg e jpeg são permitidos</h5></div>";
-            }
-
-        }
-
         $prof = filter_input(INPUT_GET, 'professor', FILTER_SANITIZE_STRING);
         $query = "SELECT * FROM professores WHERE nome_professor = '$prof'";
         $stmt = $pdo->prepare($query);
@@ -283,7 +228,10 @@
                             <h4 class="card-title">Editar Professor</h4>
                         </div>
                         <div class="card-body">
-                            <form method="POST" action="<?= url('visualizarProf') ?>?professor=<?= $data['nome_professor']?>" enctype="multipart/form-data">
+                            <div id="resultado"></div>
+                            
+                            <form method="POST" id="update-professor" enctype="multipart/form-data">
+                                
                                 <div class="row">
                                     <input type="hidden" value="<?= $data['id']?>" name="id">
                                     <div class="col-lg-6">
@@ -292,7 +240,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <label>Nome</label>
-                                        <input required type="text" value="<?= $data['nome_professor']?>" name="nome" class="form-control mb-3"
+                                        <input type="text" value="<?= $data['nome_professor']?>" name="nome" class="form-control mb-3"
                                             placeholder="Nome do Professor">
                                     </div>
 
@@ -406,6 +354,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <button name="updatedata" type="submit" class="btn btn-primary pull-right">Atualizar Perfil</button>
                                 <div class="clearfix"></div>
                             </form>
@@ -458,6 +407,7 @@
     crossorigin="anonymous"></script>
 <script src="../../assets/js/app.min.js"></script>
 <script src="../../assets/js/theme/apple.min.js"></script>
+<script src="../../assets/js/ajax/professorUpdate.js"></script>
 <!-- ================== END BASE JS ================== -->
 
 <!-- ================== BEGIN PAGE LEVEL JS ================== -->
