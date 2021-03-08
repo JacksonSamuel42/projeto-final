@@ -308,6 +308,11 @@
                                             <option value="feminino">Feminino</option>
                                         </select>
                                     </div>
+
+                                    <div class="col-lg-4">
+                                        <label for="">Código do aluno</label>
+                                        <input disabled type="text" class="form-control" value="<?= $data['codigo_aluno']?>">
+                                    </div>
                                 </div>
 
                                 <div class="row">

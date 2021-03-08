@@ -187,16 +187,20 @@
             $id = addslashes($_POST['update_id']);
             $sala = addslashes($_POST['update_sala']);
 
-            $sql = "UPDATE salas SET nome_sala = :salas, updated_at = NOW() WHERE id = :id";
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindValue(":id", $id);
-            $stmt->bindValue(":salas", $sala);
-
-            if($stmt->execute()){
-                echo "<div class='alert alert-success'><h5>atualizado com sucesso</h5></div>";
-                // echo $_FILES["img"]["tmp_name"], "upload/", $_FILES["img"]["name"];
-            }else{
-                echo "<div class='alert alert-danger'><h5>erro ao atualizar</h5></div>";
+            if(!preg_match('/^\D/i', $name)){ echo "<div class='alert alert-danger'><h5> nome da sala não pode começar com numero</h5></div>";}
+            elseif(strlen($name) < 3){ echo "<div class='alert alert-danger'><h5> nome da sala não pode conter menos de 3 caracteres</h5></div>";}
+            else{
+                $sql = "UPDATE salas SET nome_sala = :salas, updated_at = NOW() WHERE id = :id";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindValue(":id", $id);
+                $stmt->bindValue(":salas", $sala);
+    
+                if($stmt->execute()){
+                    echo "<div class='alert alert-success'><h5>atualizado com sucesso</h5></div>";
+                    // echo $_FILES["img"]["tmp_name"], "upload/", $_FILES["img"]["name"];
+                }else{
+                    echo "<div class='alert alert-danger'><h5>erro ao atualizar</h5></div>";
+                }
             }
 
         }
@@ -206,23 +210,28 @@
             // $id = addslashes($_POST['id']);
             $name = addslashes($_POST['nome_sala']);
 
-            $sql = $pdo->prepare("select * from salas where nome_sala = :name");
-            $sql->bindValue(":name", $name);
-            $sql->execute();
-
-            if($sql->rowCount()){
-                echo "<div class='alert alert-danger'><h5>sala já cadastrado</h5></div>";
-            }else{
-                $query = "INSERT INTO salas (nome_sala, created_at, updated_at) VALUES (:name, NOW(), NULL)";
-                $stmt = $pdo->prepare($query);
-                $stmt->bindValue(":name", $name);
+            if(!preg_match('/^\D/i', $name)){ echo "<div class='alert alert-danger'><h5> nome da sala não pode começar com numero</h5></div>";}
+            elseif(strlen($name) < 3){ echo "<div class='alert alert-danger'><h5> nome da sala não pode conter menos de 3 caracteres</h5></div>";}
+            else{
+                $sql = $pdo->prepare("select * from salas where nome_sala = :name");
+                $sql->bindValue(":name", $name);
+                $sql->execute();
     
-                if($stmt->execute()){
-                    echo "<div class='alert alert-success'><h5>Sala adicionada com sucesso</h5></div>";
+                if($sql->rowCount()){
+                    echo "<div class='alert alert-danger'><h5>sala já cadastrado</h5></div>";
                 }else{
-                    echo "<div class='alert alert-danger'><h5>Erro ao adicionar salas</h5></div>";
+                    $query = "INSERT INTO salas (nome_sala, created_at, updated_at) VALUES (:name, NOW(), NULL)";
+                    $stmt = $pdo->prepare($query);
+                    $stmt->bindValue(":name", $name);
+        
+                    if($stmt->execute()){
+                        echo "<div class='alert alert-success'><h5>Sala adicionada com sucesso</h5></div>";
+                    }else{
+                        echo "<div class='alert alert-danger'><h5>Erro ao adicionar salas</h5></div>";
+                    }
                 }
             }
+
 
         }
 

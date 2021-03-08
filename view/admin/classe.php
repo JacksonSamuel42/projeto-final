@@ -187,16 +187,28 @@
             $id = addslashes($_POST['update_id']);
             $classe = addslashes($_POST['update_classe']);
 
-            $sql = "UPDATE classes SET classe = :classe, updated_at = NOW() WHERE id = :id";
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindValue(":id", $id);
-            $stmt->bindValue(":classe", $classe);
+            if(!preg_match('/^\S+$/i', $classe)){ echo "<div class='alert alert-danger'><h5>classe não pode conter espaço</h5></div>";}
+            else{
+                $sql = $pdo->prepare("select * from classe where classe = :name");
+                $sql->bindValue(":name", $classe);
+                $sql->execute();
 
-            if($stmt->execute()){
-                echo "<div class='alert alert-success'><h5>atualizado com sucesso</h5></div>";
-                // echo $_FILES["img"]["tmp_name"], "upload/", $_FILES["img"]["name"];
-            }else{
-                echo "<div class='alert alert-danger'><h5>erro ao atualizar</h5></div>";
+                if($sql->rowCount()){
+                    echo "<div class='alert alert-danger'><h5>Classe já cadastrada</h5></div>";
+                }else{
+                    $sql = "UPDATE classes SET classe = :classe, updated_at = NOW() WHERE id = :id";
+                    $stmt = $pdo->prepare($sql);
+                    $stmt->bindValue(":id", $id);
+                    $stmt->bindValue(":classe", $classe);
+        
+                    if($stmt->execute()){
+                        echo "<div class='alert alert-success'><h5>atualizado com sucesso</h5></div>";
+                        // echo $_FILES["img"]["tmp_name"], "upload/", $_FILES["img"]["name"];
+                    }else{
+                        echo "<div class='alert alert-danger'><h5>erro ao atualizar</h5></div>";
+                    }
+                }
+
             }
 
         }
@@ -206,21 +218,24 @@
             // $id = addslashes($_POST['id']);
             $classe = addslashes($_POST['classe']);
 
-            $sql = $pdo->prepare("SELECT * from classes where classe = :classe");
-            $sql->bindValue(":classe", $classe);
-            $sql->execute();
-
-            if($sql->rowCount()){
-                echo "<div class='alert alert-danger'><h5>classe já cadastrado</h5></div>";
-            }else{
-                $query = "INSERT INTO classes (classe, created_at, updated_at) VALUES (:classe, NOW(), NULL)";
-                $stmt = $pdo->prepare($query);
-                $stmt->bindValue(":classe", $classe);
+            if(!preg_match('/^\S+$/i', $classe)){ echo "<div class='alert alert-danger'><h5>classe não pode conter espaço</h5></div>";}
+            else{
+                $sql = $pdo->prepare("SELECT * from classes where classe = :classe");
+                $sql->bindValue(":classe", $classe);
+                $sql->execute();
     
-                if($stmt->execute()){
-                    echo "<div class='alert alert-success'><h5>Dados inseridos com sucesso</h5></div>";
+                if($sql->rowCount()){
+                    echo "<div class='alert alert-danger'><h5>classe já cadastrado</h5></div>";
                 }else{
-                    echo "<div class='alert alert-danger'><h5>Erro</h5></div>";
+                    $query = "INSERT INTO classes (classe, created_at, updated_at) VALUES (:classe, NOW(), NULL)";
+                    $stmt = $pdo->prepare($query);
+                    $stmt->bindValue(":classe", $classe);
+        
+                    if($stmt->execute()){
+                        echo "<div class='alert alert-success'><h5>Dado inserido com sucesso</h5></div>";
+                    }else{
+                        echo "<div class='alert alert-danger'><h5>Erro</h5></div>";
+                    }
                 }
             }
 

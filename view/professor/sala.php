@@ -128,10 +128,7 @@
     $stmt->bindValue(':tu', $turma);
     $stmt->execute();
 
-    $data = $stmt->fetchAll(PDO::FETCH_ASSOC); 
-    if(!$data){
-        echo "<div class='alert alert-warning'>Nenhum aluno encontrado</div>";
-    }
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -151,6 +148,12 @@
             <!-- <h4 class="panel-title">Sala</h4> -->
         </div>
         <div class="panel-body">
+
+            <?php
+                if(!$data){
+                    echo "<div class='alert alert-warning'>Nenhum aluno encontrado</div>";
+                }
+            ?>
 
             <table id="data-table-autofill" class="table table-striped table-bordered table-td-valign-middle">
                 <thead>

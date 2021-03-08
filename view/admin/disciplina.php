@@ -186,18 +186,22 @@
 
             $id = addslashes($_POST['update_id']);
             $disciplina = addslashes($_POST['update_disciplina']);
+            
+            if(!preg_match('/^\D+$/i', $nome_aluno)){ echo "<div class='alert alert-success'><h5> nome do aluno não pode conter numero</h5></div>";}
+            else{
+                $sql = "UPDATE disciplina SET nome_disciplina = :disciplina, updated_at = NOW() WHERE id = :id";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindValue(":id", $id);
+                $stmt->bindValue(":disciplina", $disciplina);
 
-            $sql = "UPDATE disciplina SET nome_disciplina = :disciplina, updated_at = NOW() WHERE id = :id";
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindValue(":id", $id);
-            $stmt->bindValue(":disciplina", $disciplina);
-
-            if($stmt->execute()){
-                echo "<div class='alert alert-success'><h5>atualizado com sucesso</h5></div>";
-                // echo $_FILES["img"]["tmp_name"], "upload/", $_FILES["img"]["name"];
-            }else{
-                echo "<div class='alert alert-danger'><h5>erro ao atualizar</h5></div>";
+                if($stmt->execute()){
+                    echo "<div class='alert alert-success'><h5>atualizado com sucesso</h5></div>";
+                    // echo $_FILES["img"]["tmp_name"], "upload/", $_FILES["img"]["name"];
+                }else{
+                    echo "<div class='alert alert-danger'><h5>erro ao atualizar</h5></div>";
+                }
             }
+
 
         }
 
@@ -206,23 +210,28 @@
             // $id = addslashes($_POST['id']);
             $disciplina = addslashes($_POST['nome_disc']);
 
-            $sql = $pdo->prepare("select * from disciplina where nome_disciplina = :disciplina");
-            $sql->bindValue(":disciplina", $disciplina);
-            $sql->execute();
-
-            if($sql->rowCount()){
-                echo "<div class='alert alert-danger'><h5>disciplina já cadastrado</h5></div>";
-            }else{
-                $query = "INSERT INTO disciplina (nome_disciplina, created_at, updated_at) VALUES (:disciplina, NOW(), NULL)";
-                $stmt = $pdo->prepare($query);
-                $stmt->bindValue(":disciplina", $disciplina);
+            if(!preg_match('/^\D+$/i', $disciplina)){ echo "<div class='alert alert-danger'><h5> Disciplina não pode conter numero</h5></div>";}
+            elseif(strlen($disciplina) < 3){ echo "<div class='alert alert-danger'><h5> Disciplina não pode conter menos de 3 caracteres</h5></div>";}
+            else{
+                $sql = $pdo->prepare("select * from disciplina where nome_disciplina = :disciplina");
+                $sql->bindValue(":disciplina", $disciplina);
+                $sql->execute();
     
-                if($stmt->execute()){
-                    echo "<div class='alert alert-success'><h5>disciplina adicionada com sucesso</h5></div>";
+                if($sql->rowCount()){
+                    echo "<div class='alert alert-danger'><h5>disciplina já cadastrado</h5></div>";
                 }else{
-                    echo "<div class='alert alert-danger'><h5>Erro ao adicionar disciplina</h5></div>";
+                    $query = "INSERT INTO disciplina (nome_disciplina, created_at, updated_at) VALUES (:disciplina, NOW(), NULL)";
+                    $stmt = $pdo->prepare($query);
+                    $stmt->bindValue(":disciplina", $disciplina);
+        
+                    if($stmt->execute()){
+                        echo "<div class='alert alert-success'><h5>disciplina adicionada com sucesso</h5></div>";
+                    }else{
+                        echo "<div class='alert alert-danger'><h5>Erro ao adicionar disciplina</h5></div>";
+                    }
                 }
             }
+
 
         }
 

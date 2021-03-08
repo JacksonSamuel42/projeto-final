@@ -39,7 +39,7 @@
 								<div class="form-group col-lg-6 col-sm-6">
 									<label class="col-form-label">Disciplina</label>
 									<select class="form-control" id="disciplina" name="pagamento_servico"
-										required>
+										>
 										<option value="" disabled>Selecionar</option>
 										<?php
 											foreach($res as $row){?>
@@ -53,26 +53,26 @@
 								<div class="form-group col-lg-6 col-sm-6">
 									<label class="col-form-label">Primeira Nota</label>
 									<input type="number" id="nota1" name="nota1" placeholder="nota"
-										class="form-control" required />
+										class="form-control"  />
 								</div>
 								<div class="form-group col-lg-6 col-sm-6">
 									<label class="col-form-label">Segunda Nota</label>
 									<input type="number" id="nota2" name="nota2"
-										placeholder="nota" class="form-control" required />
+										placeholder="nota" class="form-control"  />
 								</div>
 								<div class="form-group col-lg-6 col-sm-6">
 									<label class="col-form-label">Terceira Nota</label>
 									<input type="number" id="nota3" name="nota3"
-									placeholder="nota" class="form-control" required />
+									placeholder="nota" class="form-control"  />
 								</div>
 								<div class="form-group col-lg-6 col-sm-6">
 									<label class="col-form-label">Data</label>
 									<input type="date" id="data-nota" name="data-nota"
-										placeholder="data" class="form-control" required />
+										placeholder="data" class="form-control"  />
 								</div>
 								<div class="form-group col-lg-6 col-sm-6">
 									<label class="col-form-label">Trimestre</label>
-									<select required id="trimestre-nota" class="form-control" name="trimestre-nota">
+									<select  id="trimestre-nota" class="form-control" name="trimestre-nota">
 										<option value="I-trimestre">I-Trimestre</option>
 										<option class="<?= $displayTrimestres2?>" value="II-trimestre">II-Trimestre</option>
 										<option class="<?= $displayTrimestres3?>" value="III-trimestre">III-Trimestre</option>

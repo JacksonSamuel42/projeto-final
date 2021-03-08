@@ -182,58 +182,6 @@
     <?php 
         include('../../database/db.config.php');
 
-        if(isset($_POST['updatedata'])){
-
-            $id = addslashes($_POST['id']);
-            $nome_professor = addslashes($_POST['nome']);
-            $turma = addslashes($_POST['turma']);
-            $sala = addslashes($_POST['sala']);
-            $classe = addslashes($_POST['classe']);
-            $turno = addslashes($_POST['turno']);
-            $email = addslashes($_POST['email']);
-            $responsavel = addslashes($_POST['responsavel']);
-            $sexo = addslashes($_POST['sexo']);
-            $curso = addslashes($_POST['curso']);
-            $desc = addslashes($_POST['desc']);
-            $foto = addslashes($_FILES['foto']['name']);
-
-            $target = "../foto/aluno/".basename($_FILES['foto']['name']);
-
-            $validation_img_extension = $_FILES['foto']['type'] == "image/jpg" || 
-            $_FILES['foto']['type'] == "image/png" ||
-            $_FILES['foto']['type'] == "image/jpeg";
-
-            if($validation_img_extension){
-                $sql = "UPDATE aluno SET nome_aluno = :prof, turma = :turma, sala = :sala, classe = :classe, turno = :turno,
-                 curso = :curso, nome_responsavel = :responsavel, email = :email, sexo = :sexo, descricao = :desc, foto = :foto, updated_at = NOW() WHERE id = :id";
-                $stmt = $pdo->prepare($sql);
-
-                $stmt->bindValue(":id", $id);
-                $stmt->bindValue(":prof", $nome_professor);
-                $stmt->bindValue(":turma", $turma);
-                $stmt->bindValue(":sala", $sala);
-                $stmt->bindValue(":classe", $classe);
-                $stmt->bindValue(":curso", $curso);
-                $stmt->bindValue(":turno", $turno);
-                $stmt->bindValue(":responsavel", $responsavel);
-                $stmt->bindValue(":email", $email);
-                $stmt->bindValue(":sexo", $sexo);
-                $stmt->bindValue(":desc", $desc);
-                $stmt->bindValue(":foto", $foto);
-
-                if($stmt->execute()){
-                    move_uploaded_file($_FILES["foto"]["tmp_name"], $target);
-                    echo "<div class='alert alert-success'><h5>atualizado com sucesso</h5></div>";
-                    // header("Refresh: 5; url=professor.php");
-                }else{
-                    echo "<div class='alert alert-danger'><h5>erro ao atualizar</h5></div>";
-                }    
-            }else{
-                echo "<div class='alert alert-warning'><h5>apenas png, jpg e jpeg são permitidos</h5></div>";
-            }
-
-        }
-
         $aluno = filter_input(INPUT_GET, 'aluno', FILTER_SANITIZE_NUMBER_INT);
         $query = "SELECT * FROM aluno WHERE id = $aluno";
         $stmt = $pdo->prepare($query);
@@ -242,30 +190,7 @@
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
     ?>
     <?php
-        $query = "SELECT * FROM turma";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute();
-        $turma = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        $query2 = "SELECT * FROM disciplina";
-        $stmt2 = $pdo->prepare($query2);
-        $stmt2->execute();
-        $disciplina = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-
-        $query3 = "SELECT * FROM turno";
-        $stmt3 = $pdo->prepare($query3);
-        $stmt3->execute();
-        $turno = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-
-        $query4 = "SELECT * FROM classes";
-        $stmt4 = $pdo->prepare($query4);
-        $stmt4->execute();
-        $classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-        $query5 = "SELECT * FROM salas";
-        $stmt5 = $pdo->prepare($query5);
-        $stmt5->execute();
-        $sala = $stmt5->fetchAll(PDO::FETCH_ASSOC);
+        include __DIR__ . "../../../source/Controllers/listInfo.php"
     ?>
 
     <!-- begin tabs -->
@@ -280,7 +205,9 @@
                             <h4 class="card-title">Editar Aluno</h4>
                         </div>
                         <div class="card-body">
-                            <form method="POST" action="<?= url('visualizarAluno') ?>?aluno=<?= $data['nome_aluno']?>" enctype="multipart/form-data">
+                            <div id="resultado"></div>
+
+                            <form method="POST" id="update-aluno" enctype="multipart/form-data">
                                 <div class="row">
                                     <input type="hidden" value="<?= $data['id']?>" name="id">
                                     <div class="col-lg-6">
@@ -445,6 +372,7 @@
     crossorigin="anonymous"></script>
 <script src="../../assets/js/app.min.js"></script>
 <script src="../../assets/js/theme/apple.min.js"></script>
+<script src="../../assets/js/ajax/alunoUpdate.js"></script>
 <!-- ================== END BASE JS ================== -->
 
 <!-- ================== BEGIN PAGE LEVEL JS ================== -->

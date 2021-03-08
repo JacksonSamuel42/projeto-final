@@ -187,16 +187,28 @@
             $id = addslashes($_POST['update_id']);
             $nome_turma = addslashes($_POST['update_turma']);
 
-            $sql = "UPDATE turma SET nome_turma = :turma, updated_at = NOW() WHERE id = :id";
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindValue(":id", $id);
-            $stmt->bindValue(":turma", $nome_turma);
+            if(!preg_match('/^\D+$/i', $nome_turma)){ echo "<div class='alert alert-danger'><h5>Turma não pode conter numero</h5></div>";}
+            else{
+                $sql = $pdo->prepare("select * from turma where nome_turma = :name");
+                $sql->bindValue(":name", $nome_turma);
+                $sql->execute();
 
-            if($stmt->execute()){
-                echo "<div class='alert alert-success'><h5>atualizado com sucesso</h5></div>";
-                // echo $_FILES["img"]["tmp_name"], "upload/", $_FILES["img"]["name"];
-            }else{
-                echo "<div class='alert alert-danger'><h5>erro ao atualizar</h5></div>";
+                if($sql->rowCount()){
+                    echo "<div class='alert alert-danger'><h5>Turma já cadastrado</h5></div>";
+                }else{
+                    $sql = "UPDATE turma SET nome_turma = :turma, updated_at = NOW() WHERE id = :id";
+                    $stmt = $pdo->prepare($sql);
+                    $stmt->bindValue(":id", $id);
+                    $stmt->bindValue(":turma", $nome_turma);
+        
+                    if($stmt->execute()){
+                        echo "<div class='alert alert-success'><h5>atualizado com sucesso</h5></div>";
+                        // echo $_FILES["img"]["tmp_name"], "upload/", $_FILES["img"]["name"];
+                    }else{
+                        echo "<div class='alert alert-danger'><h5>erro ao atualizar</h5></div>";
+                    }
+                }
+
             }
 
         }
@@ -206,21 +218,24 @@
             // $id = addslashes($_POST['id']);
             $nome_turma = addslashes($_POST['nome_turma']);
 
-            $sql = $pdo->prepare("SELECT * from turma where nome_turma = :turma");
-            $sql->bindValue(":turma", $nome_turma);
-            $sql->execute();
+            if(!preg_match('/^\D+$/i', $nome_turma)){ echo "<div class='alert alert-danger'><h5>Turma não pode conter numero</h5></div>";}
+            else{
+                $sql = $pdo->prepare("SELECT * from turma where nome_turma = :turma");
+                $sql->bindValue(":turma", $nome_turma);
+                $sql->execute();
 
-            if($sql->rowCount()){
-                echo "<div class='alert alert-danger'><h5>Turno já cadastrado</h5></div>";
-            }else{
-                $query = "INSERT INTO turma (nome_turma, created_at, updated_at) VALUES (:turma, NOW(), NULL)";
-                $stmt = $pdo->prepare($query);
-                $stmt->bindValue(":turma", $nome_turma);
-    
-                if($stmt->execute()){
-                    echo "<div class='alert alert-success'><h5>Dados inseridos com sucesso</h5></div>";
+                if($sql->rowCount()){
+                    echo "<div class='alert alert-danger'><h5>Turno já cadastrado</h5></div>";
                 }else{
-                    echo "<div class='alert alert-danger'><h5>Erro</h5></div>";
+                    $query = "INSERT INTO turma (nome_turma, created_at, updated_at) VALUES (:turma, NOW(), NULL)";
+                    $stmt = $pdo->prepare($query);
+                    $stmt->bindValue(":turma", $nome_turma);
+        
+                    if($stmt->execute()){
+                        echo "<div class='alert alert-success'><h5>Dados inseridos com sucesso</h5></div>";
+                    }else{
+                        echo "<div class='alert alert-danger'><h5>Erro</h5></div>";
+                    }
                 }
             }
 

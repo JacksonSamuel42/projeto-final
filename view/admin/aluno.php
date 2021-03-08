@@ -174,63 +174,6 @@
     <?php 
         include('../../database/db.config.php');
 
-        // Gerando numero randomico de 1 a 8
-
-        
-        if(isset($_POST['inserir'])){
-            $numero_de_bytes = 4;
-    
-            $restultado_bytes = random_bytes($numero_de_bytes);
-            $resultado_final = bin2hex($restultado_bytes);
-
-            // $id = addslashes($_POST['id']);
-            $nome_professor = addslashes($_POST['nome_aluno']);
-            $turma = addslashes($_POST['turma']);
-            $classe = addslashes($_POST['classe']);
-            $turno = addslashes($_POST['turno']);
-            $sala = addslashes($_POST['sala']);
-            $responsavel = addslashes($_POST['responsavel']);
-            $email = addslashes($_POST['email']) ? $_POST['email'] : NULL;
-            $sexo = addslashes($_POST['sexo']);
-            $curso = addslashes($_POST['curso']);
-            // $disciplina = addslashes($_POST['disciplina']);
-            $desc = addslashes($_POST['desc']) ? $_POST['desc'] : NULL;
-            $foto = addslashes($_FILES['foto']['name']);
-
-            $target = "./foto/aluno/".basename($_FILES['foto']['name']);
-
-            $validation_img_extension = $_FILES['foto']['type'] == "image/jpg" || 
-            $_FILES['foto']['type'] == "image/png" ||
-            $_FILES['foto']['type'] == "image/jpeg";
-
-            if($validation_img_extension){
-                $query = "INSERT INTO aluno (nome_aluno, turma, sala, classe, curso, codigo_aluno, turno, nome_responsavel, email, sexo, descricao, foto, created_at, updated_at) 
-                VALUES (:prof, :turma, :sala, :classe, :curso, :cod, :turno, :responsavel, :email, :sexo, :desc, :foto, NOW(), NULL)";
-                $stmt = $pdo->prepare($query);
-                $stmt->bindValue(":prof", $nome_professor);
-                $stmt->bindValue(":turma", $turma);
-                $stmt->bindValue(":sala", $sala);
-                $stmt->bindValue(":classe", $classe);
-                $stmt->bindValue(":curso", $curso);
-                $stmt->bindValue(":cod", $resultado_final);
-                $stmt->bindValue(":turno", $turno);
-                $stmt->bindValue(":responsavel", $responsavel);
-                $stmt->bindValue(":email", $email);
-                $stmt->bindValue(":sexo", $sexo);
-                $stmt->bindValue(":desc", $desc);
-                $stmt->bindValue(":foto", $foto);
-
-                if($stmt->execute()){
-                    move_uploaded_file($_FILES["foto"]["tmp_name"], $target);
-                    echo "<div class='alert alert-success'><h5>Inserido com sucesso</h5></div>";
-                }else{
-                    echo "<div class='alert alert-danger'><h5>Não inserido</h5></div>";
-                }    
-            }else{
-                echo "<div class='alert alert-warning'><h5>apenas png, jpg e jpeg são permitidos</h5></div>";
-            }
-        }
-
         if(isset($_POST['deletedata'])){
             // $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
             $id = addslashes($_POST['delete_id']);
@@ -293,7 +236,9 @@
             <div class="col-lg-8 ">
                 <div class="w-100">
                     <form method="post" class="float-right form-inline" style="margin-right:-20px">
-
+                        <div class="form group mr-1">
+                            <input type="number" name="data" class="form-control" placeholder="ano">
+                        </div>
                         <div class="form group mr-1">
                             <select class="form-control" name="sala">
                                 <option value="0">sala</option>
@@ -351,7 +296,7 @@
         </div>
 
         <div class="panel-body">
-
+            
             <!-- Modal -->
             <div class="modal fade" id="Inserir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
@@ -363,9 +308,9 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form name="wysihtml5" action="<?= url('aluno') ?>" enctype="multipart/form-data"
-                            method="POST">
+                        <form id="insert-aluno" enctype="multipart/form-data" method="POST">
                             <div class="modal-body">
+                                <div id="resultado"></div>
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <label>Foto</label>
@@ -373,7 +318,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <label>Nome</label>
-                                        <input required type="text" name="nome_aluno" class="form-control mb-3"
+                                        <input type="text" name="nome_aluno" class="form-control mb-3"
                                             placeholder="Nome do Aluno">
                                     </div>
 
@@ -498,8 +443,9 @@
                             $curso = addslashes($_POST['curso']);
                             $turma = addslashes($_POST['turma']);
                             $classe = addslashes($_POST['classe']);
+                            $date = addslashes($_POST['data']);
 
-                            $query = "SELECT * FROM aluno WHERE (classe = '$classe' OR turma = '$turma' OR curso = '$curso' OR sala = '$sala') OR
+                            $query = "SELECT * FROM aluno WHERE (classe = '$classe' OR turma = '$turma' OR curso = '$curso' OR sala = '$sala' OR YEAR(created_at) = '$date') OR
                             (classe = '$classe' AND turma = '$turma' AND curso = '$curso' AND sala = '$sala')";
                             $stmt = $pdo->prepare($query);
                             $stmt->execute();
@@ -585,7 +531,7 @@
                 <div class="modal-body">
                     <div
                         style="max-width: 400px;margin: auto;display: flex;flex-direction: column;justify-content: center; align-items: center;">
-                        <input required type="hidden" name="delete_id" id="delete_id" class="form-control mb-3">
+                        <input type="hidden" name="delete_id" id="delete_id" class="form-control mb-3">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -618,6 +564,7 @@
     crossorigin="anonymous"></script>
 <script src="../../assets/js/app.min.js"></script>
 <script src="../../assets/js/theme/apple.min.js"></script>
+<script src="../../assets/js/ajax/alunoInsert.js"></script>
 <!-- ================== END BASE JS ================== -->
 <!-- ================== BEGIN PAGE LEVEL JS ================== -->
 <script src="../../assets/plugins/datatables.net/js/jquery.dataTables.min.js"></script>

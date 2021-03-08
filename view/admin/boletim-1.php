@@ -174,15 +174,11 @@
     <!-- begin page-header -->
     <h1 class="page-header">Gerir Boletim</small></h1>
 
-    <!-- {% if app.session.get('success') %}
-        <h4 class="alert alert-success">{{success}}</h4>
-    {% endif %} -->
-
     <!-- end page-header -->
     <?php 
         include('../../database/db.config.php');
         
-        $query = "SELECT * FROM aluno ";
+        $query = "SELECT * FROM aluno";
         $stmt = $pdo->prepare($query);
         $stmt->execute();
 
@@ -232,6 +228,9 @@
                 <div class="w-100">
                     <form method="post" class="float-right form-inline" style="margin-right:-20px">
 
+                        <div class="form group mr-1">
+                            <input type="number" name="data" class="form-control" placeholder="ano">
+                        </div>
                         <div class="form group mr-1">
                             <select class="form-control" name="sala">
                                 <option value="0">sala</option>
@@ -306,8 +305,9 @@
                         $curso = addslashes($_POST['curso']);
                         $turma = addslashes($_POST['turma']);
                         $classe = addslashes($_POST['classe']);
+                        $date = addslashes($_POST['data']);
 
-                        $query = "SELECT * FROM aluno WHERE (classe = '$classe' OR turma = '$turma' OR curso = '$curso' OR sala = '$sala') OR
+                        $query = "SELECT * FROM aluno WHERE (classe = '$classe' OR turma = '$turma' OR curso = '$curso' OR sala = '$sala' OR YEAR(created_at) = '$date') OR
                         (classe = '$classe' AND turma = '$turma' AND curso = '$curso' AND sala = '$sala')";
                         $stmt = $pdo->prepare($query);
                         $stmt->execute();

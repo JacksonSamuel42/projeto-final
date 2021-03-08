@@ -136,9 +136,9 @@
                     <span>Boletins</span>
 				</a>
 				<ul class="sub-menu">
-					<li class=""><a href="<?= url('boletim-1') ?>"><i class="fas fa-tags"></i><span>I-Trimestre</span></a></li>
+					<li class="active"><a href="<?= url('boletim-1') ?>"><i class="fas fa-tags"></i><span>I-Trimestre</span></a></li>
 					<li class=""><a href="<?= url('boletim-2') ?>"><i class="fas fa-tags"></i><span>II-Trimestre</span></a></li>
-					<li class="active"><a href="<?= url('boletim-3') ?>"><i class="fas fa-tags"></i><span>III-Trimestre</span></a></li>
+					<li class=""><a href="<?= url('boletim-3') ?>"><i class="fas fa-tags"></i><span>III-Trimestre</span></a></li>
 				</ul>
 			</li>
 
@@ -173,10 +173,6 @@
     <!-- end breadcrumb -->
     <!-- begin page-header -->
     <h1 class="page-header">Gerir Boletim</small></h1>
-
-    <!-- {% if app.session.get('success') %}
-        <h4 class="alert alert-success">{{success}}</h4>
-    {% endif %} -->
 
     <!-- end page-header -->
     <?php 
@@ -219,14 +215,22 @@
     
     <!-- begin panel -->
     <div class="panel panel-inverse">
+
+        <div class="row">
+            
+        </div>
+
         <div class="panel-heading">
-        <div class="col-lg-4">
+            <div class="col-lg-4">
                 <h4 class="panel-title">Boletim Alunos</h4>
             </div>
             <div class="col-lg-8 ">
                 <div class="w-100">
                     <form method="post" class="float-right form-inline" style="margin-right:-20px">
 
+                        <div class="form group mr-1">
+                            <input type="number" name="data" class="form-control" placeholder="ano">
+                        </div>
                         <div class="form group mr-1">
                             <select class="form-control" name="sala">
                                 <option value="0">sala</option>
@@ -288,6 +292,7 @@
                     <tr>
                         <th class="text-nowrap">id</th>
                         <th class="text-nowrap">Nome do Aluno</th>
+                        <th class="text-nowrap">Sala do Aluno</th>
                         <th class="text-nowrap">Comandos</th>
                     </tr>
                 </thead>
@@ -300,8 +305,9 @@
                         $curso = addslashes($_POST['curso']);
                         $turma = addslashes($_POST['turma']);
                         $classe = addslashes($_POST['classe']);
+                        $date = addslashes($_POST['data']);
 
-                        $query = "SELECT * FROM aluno WHERE (classe = '$classe' OR turma = '$turma' OR curso = '$curso' OR sala = '$sala') OR
+                        $query = "SELECT * FROM aluno WHERE (classe = '$classe' OR turma = '$turma' OR curso = '$curso' OR sala = '$sala' OR YEAR(created_at) = '$date') OR
                         (classe = '$classe' AND turma = '$turma' AND curso = '$curso' AND sala = '$sala')";
                         $stmt = $pdo->prepare($query);
                         $stmt->execute();
@@ -312,9 +318,10 @@
                                 <tr class="odd gradeX">
                                     <td><?= $row['id']?></td>
                                     <td><?= $row['nome_aluno']?></td>
+                                    <td><?= $row['sala']?></td>
                                     <td>
                                         <button type="button" data-toggle="modal" data-target="#boletim-modal" class="imprimir btn btn-primary" ><i class="fa fa-eye"></i></button>
-                                        <a href="boletim-3?id=<?= $row['id']?>" class="btn btn-success" ><i class="fa fa-hand-pointer"></i></a>
+                                        <a href="boletim-1?id=<?= $row['id']?>" class="btn btn-success" ><i class="fa fa-hand-pointer"></i></a>
                                     </td>
                                 </tr>
                             <?php
@@ -327,9 +334,10 @@
                             <tr class="odd gradeX">
                                 <td><?= $row['id']?></td>
                                 <td><?= $row['nome_aluno']?></td>
+                                <td><?= $row['sala']?></td>
                                 <td>
                                     <button type="button" data-toggle="modal" data-target="#boletim-modal" class="imprimir btn btn-primary" ><i class="fa fa-eye"></i></button>
-                                    <a href="boletim-3?id=<?= $row['id']?>" class="btn btn-success" ><i class="fa fa-hand-pointer"></i></a>
+                                    <a href="boletim-3?id=<?= $row['id']?>" class="btn btn-secondary" ><i class="fa fa-hand-pointer"></i></a>
                                 </td>
                             </tr>
                         <?php
@@ -368,7 +376,7 @@
 <!-- end #content -->
 
 <!-- ================== BEGIN BASE JS ================== -->
-<?php include __DIR__. "./boletim/modal3.php"?>
+<?php include __DIR__. "./boletim/modal1.php"?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
 <script src="../../assets/js/app.min.js"></script>
 <script src="../../assets/js/theme/apple.min.js"></script>

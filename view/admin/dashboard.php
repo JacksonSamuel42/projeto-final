@@ -2,7 +2,8 @@
     
     session_start();
     include('../../database/db.config.php');
-    include('../../config/isUser.php') 
+    include('../../config/isUser.php');
+    include('./code/counts.php'); 
 ?>
 
 <!DOCTYPE html>
@@ -27,6 +28,10 @@
     <link href="../../assets/plugins/datatables.net-autofill-bs4/css/autofill.bootstrap4.min.css" rel="stylesheet" />
 
     <!-- ================== END PAGE LEVEL STYLE ================== -->
+    <link href="../../assets/plugins/ionicons/css/ionicons.min.css" rel="stylesheet" />
+	<link href="../../assets/plugins/jvectormap-next/jquery-jvectormap.css" rel="stylesheet" />
+	<link href="../../assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet" />
+	<link href="../../assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
 </head>
 
 <?php include('./partials/header.php') ?>
@@ -178,13 +183,100 @@
     <div class="panel panel-inverse">
         <div class="panel-heading">
             <h4 class="panel-title">Dashboard</h4>
-            <div class="panel-heading-btn">
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default"
-                    data-click="panel-expand"><i class="fa fa-expand"></i></a>
-            </div>
         </div>
         <div class="panel-body">
-            Panel Content Here
+            <!-- begin row -->
+			<div class="row">
+				<!-- begin col-3 -->
+				<div class="col-xl-3 col-md-6">
+					<div class="widget widget-stats bg-blue">
+						<div class="stats-icon"><i class="fa fa-desktop"></i></div>
+						<div class="stats-info">
+							<h4>TOTAL DE ALUNOS</h4>
+							<p><?php 
+                                foreach($countAlunos as $cont){
+                                    echo($cont);
+                                }
+                            ?></p>	
+						</div>
+						<div class="stats-link">
+							<a href="javascript:;"></a>
+						</div>
+					</div>
+				</div>
+				<!-- end col-3 -->
+				<!-- begin col-3 -->
+				<div class="col-xl-3 col-md-6">
+					<div class="widget widget-stats bg-info">
+						<div class="stats-icon"><i class="fa fa-link"></i></div>
+						<div class="stats-info">
+							<h4>TOTAL DE PROFESSORES</h4>
+							<p><?php 
+                                foreach($countProfessores as $cont){
+                                    echo($cont);
+                                }
+                            ?></p>	
+						</div>
+						<div class="stats-link">
+							<a href="javascript:;"></a>
+						</div>
+					</div>
+				</div>
+				<!-- end col-3 -->
+				<!-- begin col-3 -->
+				<div class="col-xl-3 col-md-6">
+					<div class="widget widget-stats bg-orange">
+						<div class="stats-icon"><i class="fa fa-users"></i></div>
+						<div class="stats-info">
+							<h4>TOTAL USUÁRIOS</h4>
+							<p><?php 
+                                foreach($countUsers as $cont){
+                                    echo($cont);
+                                }
+                            ?></p>	
+						</div>
+						<div class="stats-link">
+							<a href="javascript:;"></a>
+						</div>
+					</div>
+				</div>
+				<!-- end col-3 -->
+				<!-- begin col-3 -->
+				<div class="col-xl-3 col-md-6">
+					<div class="widget widget-stats bg-red">
+						<div class="stats-icon"><i class="fa fa-clock"></i></div>
+						<div class="stats-info">
+							<h4>TOTAL DE SALAS</h4>
+							<p><?php 
+                                foreach($countSalas as $cont){
+                                    echo($cont);
+                                }
+                            ?></p>	
+						</div>
+						<div class="stats-link">
+							<a href="javascript:;"></a>
+						</div>
+					</div>
+				</div>
+				<!-- end col-3 -->
+			</div>
+			<!-- end row -->
+
+            <div class="row">
+                <div class="col-xl-8">
+                    <div class="panel panel-inverse" data-sortable-id="index-1">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Website Analytics (Last 7 Days)</h4>
+                            <div class="panel-heading-btn">
+                                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+                            </div>
+                        </div>
+                        <div class="panel-body pr-1">
+                            <div id="interactive-chart" class="height-sm"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- end panel -->
@@ -205,6 +297,16 @@
 <script src="../../assets/plugins/datatables.net-autofill/js/dataTables.autofill.min.js"></script>
 <script src="../../assets/plugins/datatables.net-autofill-bs4/js/autofill.bootstrap4.min.js"></script>
 <script src="../../assets/js/demo/table-manage-autofill.demo.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <!-- <script src="../../assets/js/activelink.js"></script> -->
+
+<script src="../../assets/plugins/gritter/js/jquery.gritter.js"></script>
+<script src="../../assets/plugins/flot/jquery.flot.js"></script>
+<script src="../../assets/plugins/flot/jquery.flot.time.js"></script>
+<script src="../../assets/plugins/flot/jquery.flot.resize.js"></script>
+<script src="../../assets/plugins/flot/jquery.flot.pie.js"></script>
+<script src="../../assets/plugins/jquery-sparkline/jquery.sparkline.min.js"></script>
+<script src="../../assets/plugins/jvectormap-next/jquery-jvectormap.min.js"></script>
+<script src="../../assets/plugins/jvectormap-next/jquery-jvectormap-world-mill.js"></script>
+<script src="../../assets/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+<script src="../../assets/js/demo/dashboard.js"></script>
 <!-- ================== END PAGE LEVEL JS ================== -->
