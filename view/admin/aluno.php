@@ -485,6 +485,9 @@
                                     <td>
                                         <a href="<?= url('visualizarAluno')?>?aluno=<?= $row['id']?>"
                                             class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                                        <a href="<?= url('visualizarAlunoD')?>?aluno=<?= $row['id']?>" class="btn btn-success">
+                                            <i class="">G</i>
+                                        </a>
                                         <button type="button" class="deletebtn btn btn-danger"><i class="fa fa-trash"></i></button>
                                     </td>
                                 </tr>
