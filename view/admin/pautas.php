@@ -184,6 +184,14 @@
         <h4 class="alert alert-success">{{success}}</h4>
     {% endif %} -->
     <?php
+        function nota($data){
+            if($data >= 10){
+                echo '<span class="text-blue">'.$data.'</span>';
+            }else{
+                echo '<span class="text-danger">'.$data.'</span>';
+            }
+        }
+
         $query = "SELECT * FROM turma";
         $stmt = $pdo->prepare($query);
         $stmt->execute();
@@ -233,24 +241,22 @@
 
         $tri3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        if(isset($_POST['filter-aluno'])){
-            $stmt = $pdo->prepare("SELECT * FROM tipo_disciplina WHERE classe = :classe
-            AND curso = :curso");
-            $stmt->bindValue(':classe', $_POST['classe']);
-            $stmt->bindValue(':curso', $_POST['curso']);
-            $stmt->execute();
-            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-            $stmt = $pdo->prepare("SELECT count(*) FROM tipo_disciplina WHERE classe = :classe
-            AND curso = :curso");
-            $stmt->bindValue(':classe', $_POST['classe']);
-            $stmt->bindValue(':curso', $_POST['curso']);
-            $stmt->execute();
-            $resC = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-            foreach($resC as $count){
-                $calc = $count * 3;
-            }
+        $stmt = $pdo->prepare("SELECT * FROM tipo_disciplina WHERE classe = '11ª'
+        AND curso = 'informatica'");
+        // $stmt->bindValue(':classe', $_POST['classe']);
+        // $stmt->bindValue(':curso', $_POST['curso']);
+        $stmt->execute();
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $stmt = $pdo->prepare("SELECT count(*) FROM tipo_disciplina WHERE classe = '11ª'
+        AND curso = 'informatica'");
+        // $stmt->bindValue(':classe', $_POST['classe']);
+        // $stmt->bindValue(':curso', $_POST['curso']);
+        $stmt->execute();
+        $resC = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        foreach($resC as $count){
+            $calc = $count * 3;
         }
 
     ?>
@@ -333,99 +339,91 @@
         </div>
         <div class="panel-body">
 
-            <?php
-
-            if(isset($_POST['filter-aluno']) ){ ?>
             <table id="data-table-default" class="table table-striped table-bordered table-td-valign-middle">
                 <thead>
                     <tr>
-                        <th class="text-nowrap">Nº</th>
+                        <!-- <th class="text-nowrap">Nº</th> -->
                         <th > Nome Completo </th>
                         <th colspan="<?= $calc?>" class="text-center">I-Trimestre</th>
-                        <th colspan="3" class="text-center">II-Trimestre</th>
-                        <th colspan="3" class="text-center">III-Trimestre</th>
+                        <th colspan="<?= $calc?>" class="text-center">II-Trimestre</th>
+                        <th colspan="<?= $calc?>" class="text-center">III-Trimestre</th>
                         <th>CPE/CE</th>
                         <th>CF</th>
                     </tr>
                     <tr>
-                        <th class="text-nowrap"></th>
+                        <!-- <th class="text-nowrap"></th> -->
                         <th></th>
                         <?php foreach($res as $row){ ?>
                             <th colspan="3"><?= $row['nome']?></th>
                         <?php
                         }
                         ?>
-                        <th>CPE/CE</th>
-                        <th>CF</th>
+                        <th></th>
+                        <th></th>
                     </tr>
 
                     <tr>
-                        <th class="text-nowrap"></th>
+                        <!-- <th class="text-nowrap"></th> -->
                         <th></th>
 
                         <!-- 1 inicio -->
                         <?php foreach($res as $row){ ?>
-                            <th>MAC</th>
-                            <th>CPP</th>
-                            <th>CT1</th>
+                            <th colspan="1">MAC</th>
+                            <th colspan="1">CPP</th>
+                            <th colspan="1">CT1</th>
                         <?php
                         }
-                        ?>
+                        ?>  
                         <th></th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
 
-                        $sala = addslashes($_POST['sala']);
-                        $curso = addslashes($_POST['curso']);
-                        $turma = addslashes($_POST['turma']);
-                        $classe = addslashes($_POST['classe']);
-                        $turno = addslashes($_POST['turno']);
+                
+                <?php
 
-                        $query = "SELECT * FROM `aluno` INNER JOIN boletim_preserv ON (aluno.id = boletim_preserv.id_aluno) WHERE curso = :curso AND sala = :sala AND turma = :turma AND turno = :turno AND classe = :classe ";
-                        $stmt = $pdo->prepare($query);
-
-                        $stmt->bindValue(':sala', $sala);
-                        $stmt->bindValue(':curso', $curso);
-                        $stmt->bindValue(':turma', $turma);
-                        $stmt->bindValue(':turno', $turno);
-                        $stmt->bindValue(':classe', $classe);
-
-                        $stmt->execute();
-                        $filtro = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                        if($stmt->rowCount()){
-                            foreach ($filtro as $row) {
-                                if($row['trimestre'] == "I-trimestre"){
-                                ?>
-                                    <tr class="odd gradeX">
-                                        <td><?= $row['id']?></td>
-                                        <td><?= $row['nome_aluno']?></td>
-                                        <td><?= $row['nota1']?></td>
-                                        <td><?= $row['nota2']?></td>
-                                        <td><?= $row['nota3']?></td>
-                                    </tr>
-                                <?php
-                                }
-                            }
-                        }else{
-                            echo "<div class='alert alert-warning'>Nenhuma Pauta encontrada</div>";
+                    foreach ($tri1 as $row) {
+                        if($row['trimestre'] == "I-trimestre"){?>
+                            <tr class="odd gradeX">
+                                <td><?= $row['nome_aluno']?></td>
+                                <td><?= nota($row['nota1'])?></td>
+                                <td><?= nota($row['nota2'])?></td>
+                                <td><?= nota($row['nota3'])?></td>
+                            </tr>
+                        <?php
                         }
-                    ?>
+                    }
+                ?>
                 </tbody>
             </table>
-            <?php
 
-                }else{
-                    echo "<div class='alert alert-warning'>Nenhuma Pauta encontrada por favor faça a sua busca</div>";
-                }
-            ?>
 
         </div>
     </div>
     <!-- end panel -->
+    <button class="btn btn-primary float-right" type="button" data-toggle="modal" data-target="#my-modal">Add coluna</button>
+
+    <div id="my-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="my-modal-title">Title</h5>
+                    <button class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="">
+                        <div class="form-group">
+                            <label for="my-input">Aluno</label>
+                            <input id="my-input" class="form-control" type="text" name="" placeholder="nome aluno">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 </div>

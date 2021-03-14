@@ -60,7 +60,7 @@ session_start();
 
 <body>
 
-    <div class="container">
+    <div class="container" style="height: 700px;">
         <!-- begin tabs -->
         <ul class="nav nav-tabs nav-tabs-inverse nav-justified nav-justified-mobile" data-sortable-id="index-2">
             <li class="nav-item"><a href="#latest-post" data-toggle="tab" class="nav-link active"><i
