@@ -40,7 +40,19 @@
                 <a href="javascript:;" data-toggle="nav-profile">
                     <div class="cover with-shadow"></div>
                     <div class="image image-icon bg-black text-grey-darker">
-                        <i class="fa fa-user"></i>
+                    <?php
+                            include __DIR__. './code/credencias.php';
+                            
+                            if($data['foto'] == NULL){?>
+                            <img src="../admin/foto/professor/default.jpg" width="180"
+                                class="rounded-circle d-flex justify-content-center m-auto">
+                            <?php
+                                }else{?>
+                            <img class="rounded-circle d-flex justify-content-center m-auto" width="180"
+                                src="../admin/foto/professor/<?= $data['foto']?>" alt="">
+                            <?php
+                                }
+                        ?>
                     </div>
                     <div class="info">
                         <b class="caret"></b>
@@ -66,7 +78,7 @@
                     <span>Dashboard</span>
 				</a>
 				<ul class="sub-menu">
-					<li class=""><a href="<?= url('index') ?>"><i class="fas fa-home"></i><span>Home</span></a></li>
+					<li class=""><a href="<?= url() ?>"><i class="fas fa-home"></i><span>Home</span></a></li>
 				</ul>
 			</li>
 
@@ -74,12 +86,13 @@
                 <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="nav-icon fas fa-copy"></i>
-                    <span>Turno/Turma/Classe</span>
+                    <span>Turno/Turma/Classe/Curso</span>
                 </a>
                 <ul class="sub-menu">
                     <li class=""><a href="<?= url('turno') ?>"><i class="fas fa-tags"></i> Gerir Turno</a></li>
                     <li class="active"><a href="<?= url('turma') ?>"><i class="fas fa-tags"></i> Gerir Turma</a></li>
                     <li class=""><a href="<?= url('classe') ?>"><i class="fas fa-tags"></i> Gerir Classe</a></li>
+                    <li class=""><a href="<?= url('curso') ?>"><i class="fas fa-tags"></i> Gerir cursos</a></li>
                 </ul>
             </li>
 
@@ -142,12 +155,17 @@
 				</ul>
 			</li>
 
-            <li class="">
-                <a href="javascript:;">
-                    <i class="fas fa-chart-pie"></i>
-                    <span>Desempenho</span>
-                </a>
-            </li>
+            <li class="has-sub">
+				<a href="javascript:;">
+                    <b class="caret"></b>
+                    <i class="fab fa-product-hunt"></i>
+                    <span>Pautas</span>
+				</a>
+				<ul class="sub-menu">
+					<li class=""><a href="<?= url('pautas') ?>"><i class="fas fa-tags"></i><span>
+                    Visualizar Pautas</span></a></li>
+				</ul>
+			</li>
 
             <!-- begin sidebar minify button -->
             <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i
@@ -179,88 +197,20 @@
     {% endif %} -->
 
     <!-- end page-header -->
-    <?php 
-        include('../../database/db.config.php');
+    <?php
+        include("./classes/classesTurma.php");
+        $atualizar = new Turma();
+        $atualizar->atualizarTurmas();
+    ?>
 
-        if(isset($_POST['updatedata'])){
+    <?php
+        $deletar= new Turma();
+        $deletar->deletarTurmas();
+    ?> 
 
-            $id = addslashes($_POST['update_id']);
-            $nome_turma = addslashes($_POST['update_turma']);
-
-            if(!preg_match('/^\D+$/i', $nome_turma)){ echo "<div class='alert alert-danger'><h5>Turma não pode conter numero</h5></div>";}
-            else{
-                $sql = $pdo->prepare("select * from turma where nome_turma = :name");
-                $sql->bindValue(":name", $nome_turma);
-                $sql->execute();
-
-                if($sql->rowCount()){
-                    echo "<div class='alert alert-danger'><h5>Turma já cadastrado</h5></div>";
-                }else{
-                    $sql = "UPDATE turma SET nome_turma = :turma, updated_at = NOW() WHERE id = :id";
-                    $stmt = $pdo->prepare($sql);
-                    $stmt->bindValue(":id", $id);
-                    $stmt->bindValue(":turma", $nome_turma);
-        
-                    if($stmt->execute()){
-                        echo "<div class='alert alert-success'><h5>atualizado com sucesso</h5></div>";
-                        // echo $_FILES["img"]["tmp_name"], "upload/", $_FILES["img"]["name"];
-                    }else{
-                        echo "<div class='alert alert-danger'><h5>erro ao atualizar</h5></div>";
-                    }
-                }
-
-            }
-
-        }
-
-        if(isset($_POST['inserir'])){
-
-            // $id = addslashes($_POST['id']);
-            $nome_turma = addslashes($_POST['nome_turma']);
-
-            if(!preg_match('/^\D+$/i', $nome_turma)){ echo "<div class='alert alert-danger'><h5>Turma não pode conter numero</h5></div>";}
-            else{
-                $sql = $pdo->prepare("SELECT * from turma where nome_turma = :turma");
-                $sql->bindValue(":turma", $nome_turma);
-                $sql->execute();
-
-                if($sql->rowCount()){
-                    echo "<div class='alert alert-danger'><h5>Turno já cadastrado</h5></div>";
-                }else{
-                    $query = "INSERT INTO turma (nome_turma, created_at, updated_at) VALUES (:turma, NOW(), NULL)";
-                    $stmt = $pdo->prepare($query);
-                    $stmt->bindValue(":turma", $nome_turma);
-        
-                    if($stmt->execute()){
-                        echo "<div class='alert alert-success'><h5>Dados inseridos com sucesso</h5></div>";
-                    }else{
-                        echo "<div class='alert alert-danger'><h5>Erro</h5></div>";
-                    }
-                }
-            }
-
-        }
-
-        if(isset($_POST['deletedata'])){
-            // $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-            $id = addslashes($_POST['delete_id']);
-
-            $query = "DELETE FROM turma WHERE id = '$id' ";
-            $stmt = $pdo->prepare($query);
-
-            if($stmt->execute()){
-                echo "<div class='alert alert-success'><h5>Deletado com sucesso</h5></div>";
-            }else{
-                echo "<div class='alert alert-warning'><h5>Não Deletado</h5></div>";
-            } 
-        }
-        
-        $query = "SELECT * FROM turma";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute();
-
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
+    <?php
+        $turma = new Turma();
+        $turma->guardarTurma();
     ?>
 
     
@@ -310,19 +260,8 @@
                 </thead>
                 <tbody>
                     <?php
-                        foreach ($data as $row) {?>
-                            <tr class="odd gradeX">
-                                <td ><?= $row['id']?></td>
-                                <td ><?= $row['nome_turma']?></td>
-                                <td>
-                                    <!-- <a class="updatebtn btn btn-primary text-white" href="/SGN/view/turno.php?id=<?= $row['id']?>">Editar</a> -->
-                                    <button type="button" class="updatebtn btn btn-primary" >Editar</button>
-                                    <button type="button" class="deletebtn btn btn-danger" >Deletar</button>
-                                    <!-- <a data-toggle="modal" data-target="#delete" class="text-white btn btn-danger" href="/SGN/view/turno.php?id=<?= $row['id']?>">Eliminar</a> -->
-                                </td>
-                            </tr>
-                        <?php
-                        }
+                      $data1 = new Turma();
+                      $data1->buscarTurmas();
                     ?>
                 </tbody>
             </table>

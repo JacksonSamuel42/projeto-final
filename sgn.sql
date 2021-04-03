@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 08, 2021 at 07:53 PM
+-- Generation Time: Mar 17, 2021 at 01:26 PM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.3.12
 
@@ -46,14 +46,15 @@ CREATE TABLE IF NOT EXISTS `aluno` (
   `created_at` date NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `aluno`
 --
 
 INSERT INTO `aluno` (`id`, `nome_aluno`, `nome_responsavel`, `sexo`, `turma`, `sala`, `turno`, `classe`, `curso`, `codigo_aluno`, `email`, `descricao`, `foto`, `created_at`, `updated_at`) VALUES
-(1, 'Jackson', 'samuel', 'masculino', 'A', 'sala03', 'Manha', '12ª', 'informática', 'c24e8517', 'jacksonsamu42@gmail.com', 'lorem input', 'avatar5.png', '2021-03-07', '2021-03-07 15:12:35');
+(1, 'Jackson Samuel', 'samuel', 'masculino', 'A', 'sala03', 'Manha', '11ª', 'informática', 'c24e8517', 'jacksonsamu42@gmail.com', 'lorem input', 'avatar5.png', '2021-03-07', '2021-03-07 15:12:35'),
+(2, 'Bruno Jose', 'Bruna', 'masculino', 'A', 'Sala03', 'Manha', '11ª', 'informática', 'b9e2fb29', 'bruno@gmail.com', 'description', 'api.png', '2021-03-13', '2021-03-13 13:05:17');
 
 -- --------------------------------------------------------
 
@@ -73,19 +74,39 @@ CREATE TABLE IF NOT EXISTS `boletim` (
   `media` float(5,2) DEFAULT NULL,
   `id_aluno` int(11) NOT NULL,
   PRIMARY KEY (`id_boletim`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `boletim`
 --
 
 INSERT INTO `boletim` (`id_boletim`, `nota1`, `nota2`, `nota3`, `disciplina`, `data`, `trimestre`, `media`, `id_aluno`) VALUES
-(31, 12, 10, 18, 'ogi', '2021-02-17', 'I-trimestre', 13.33, 4),
-(33, 12, 10, 7, 'seac', '2021-03-04', 'I-trimestre', 9.67, 4),
-(34, 12, 10, 17, 'matematica', '2021-03-11', 'I-trimestre', 13.00, 5),
-(35, 12, 10, 18, 'matematica', '2021-03-02', 'I-trimestre', 13.33, 5),
-(38, -100, 10, 20, 'trei', '2021-03-09', 'I-trimestre', -23.33, 1),
-(39, 12, 20, 10, 'ogi', '2021-03-03', 'I-trimestre', 14.00, 1);
+(1, 12, 10, 17, 'ogi', '2021-03-11', 'I-trimestre', 13.00, 1),
+(2, 12, 10, 15, 'tlp', '2021-03-17', 'I-trimestre', 12.33, 1),
+(3, 15, 10, 5, 'seac', '2021-03-11', 'I-trimestre', 10.00, 1),
+(4, 17, 8, 6, 'electronica', '2021-03-10', 'I-trimestre', 10.33, 1),
+(5, 12, 7, 8, 'matematica', '2021-03-10', 'I-trimestre', 9.00, 1),
+(6, 12, 10, 3, 'quimica', '2021-03-11', 'I-trimestre', 8.33, 1),
+(7, 5, 9, 10, 'lingua_portuguesa', '2021-03-05', 'I-trimestre', 8.00, 1),
+(8, 13, 18, 16, 'ed_fisica', '2021-03-12', 'I-trimestre', 15.67, 1),
+(9, 12, 10, 3, 'ogi', '2021-03-03', 'I-trimestre', 8.33, 2),
+(10, 18, 18, 16, 'tlp', '2021-03-16', 'I-trimestre', 17.33, 2),
+(11, 12, 10, 18, 'ogi', '2021-03-18', 'II-trimestre', 13.33, 1),
+(12, 12, 10, 16, 'tlp', '2021-03-03', 'II-trimestre', 12.67, 1),
+(13, 18, 9, 12, 'seac', '2021-03-17', 'II-trimestre', 13.00, 1),
+(14, 8, 7, 10, 'electronica', '2021-03-05', 'II-trimestre', 8.33, 1),
+(15, 12, 9, 8, 'matematica', '2021-03-16', 'II-trimestre', 9.67, 1),
+(16, 12, 10, 8, 'quimica', '2021-03-12', 'II-trimestre', 10.00, 1),
+(17, 9, 10, 8, 'lingua_portuguesa', '2021-03-04', 'II-trimestre', 9.00, 1),
+(18, 12, 10, 8, 'ed_fisica', '2021-03-05', 'II-trimestre', 10.00, 1),
+(19, 10, 8, 10, 'ogi', '2021-03-10', 'III-trimestre', 9.33, 1),
+(20, 12, 10, 8, 'tlp', '2021-03-10', 'III-trimestre', 10.00, 1),
+(22, 10, 12, 8, 'seac', '2021-03-23', 'III-trimestre', 10.00, 1),
+(23, 12, 8, 19, 'electronica', '2021-03-04', 'III-trimestre', 13.00, 1),
+(24, 12, 10, 14, 'matematica', '2021-03-11', 'III-trimestre', 12.00, 1),
+(25, 19, 12, 10, 'quimica', '2021-03-25', 'III-trimestre', 13.67, 1),
+(26, 16, 10, 15, 'lingua_portuguesa', '2021-03-24', 'III-trimestre', 13.67, 1),
+(27, 12, 19, 17, 'ed_fisica', '2021-03-18', 'III-trimestre', 16.00, 1);
 
 -- --------------------------------------------------------
 
@@ -105,22 +126,40 @@ CREATE TABLE IF NOT EXISTS `boletim_preserv` (
   `media` float NOT NULL,
   `id_aluno` int(11) NOT NULL,
   PRIMARY KEY (`id_boletim`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `boletim_preserv`
 --
 
 INSERT INTO `boletim_preserv` (`id_boletim`, `nota1`, `nota2`, `nota3`, `disciplina`, `data`, `trimestre`, `media`, `id_aluno`) VALUES
-(1, 12, 10, 18, 'ogi', '2021-02-17', 'I-trimestre', 13.33, 4),
-(2, 12, 10, 10, 'seac', '2021-03-16', 'I-trimestre', 10.67, 4),
-(3, 12, 10, 7, 'seac', '2021-03-04', 'I-trimestre', 9.67, 4),
-(4, 12, 10, 17, 'matematica', '2021-03-11', 'I-trimestre', 13, 5),
-(5, 12, 10, 18, 'matematica', '2021-03-02', 'I-trimestre', 13.33, 5),
-(6, -20, 122, 13, 'trei', '2021-03-04', 'I-trimestre', 38.33, 1),
-(7, 2000, 12, -20, 'trei', '2021-03-04', 'I-trimestre', 664, 1),
-(8, -100, 10, 20, 'trei', '2021-03-09', 'I-trimestre', -23.33, 1),
-(9, 12, 20, 10, 'ogi', '2021-03-03', 'I-trimestre', 14, 1);
+(1, 12, 10, 17, 'ogi', '2021-03-11', 'I-trimestre', 13, 1),
+(2, 12, 10, 15, 'tlp', '2021-03-17', 'I-trimestre', 12.33, 1),
+(3, 15, 10, 5, 'seac', '2021-03-11', 'I-trimestre', 10, 1),
+(4, 17, 8, 6, 'electronica', '2021-03-10', 'I-trimestre', 10.33, 1),
+(5, 12, 7, 8, 'matematica', '2021-03-10', 'I-trimestre', 9, 1),
+(6, 12, 10, 3, 'quimica', '2021-03-11', 'I-trimestre', 8.33, 1),
+(7, 5, 9, 10, 'lingua_portuguesa', '2021-03-05', 'I-trimestre', 8, 1),
+(8, 13, 18, 16, 'ed_fisica', '2021-03-12', 'I-trimestre', 15.67, 1),
+(9, 12, 10, 3, 'ogi', '2021-03-03', 'I-trimestre', 8.33, 2),
+(10, 18, 18, 16, 'tlp', '2021-03-16', 'I-trimestre', 17.33, 2),
+(11, 12, 10, 18, 'ogi', '2021-03-18', 'II-trimestre', 13.33, 1),
+(12, 12, 10, 16, 'tlp', '2021-03-03', 'II-trimestre', 12.67, 1),
+(13, 18, 9, 12, 'seac', '2021-03-17', 'II-trimestre', 13, 1),
+(14, 8, 7, 10, 'electronica', '2021-03-05', 'II-trimestre', 8.33, 1),
+(15, 12, 9, 8, 'matematica', '2021-03-16', 'II-trimestre', 9.67, 1),
+(16, 12, 10, 8, 'quimica', '2021-03-12', 'II-trimestre', 10, 1),
+(17, 9, 10, 8, 'lingua_portuguesa', '2021-03-04', 'II-trimestre', 9, 1),
+(18, 12, 10, 8, 'ed_fisica', '2021-03-05', 'II-trimestre', 10, 1),
+(19, 10, 8, 10, 'ogi', '2021-03-10', 'III-trimestre', 9.33, 1),
+(20, 12, 10, 8, 'tlp', '2021-03-10', 'III-trimestre', 10, 1),
+(21, 18, 11, 10, 'seac', '2021-03-11', 'I-trimestre', 13, 1),
+(22, 10, 12, 8, 'seac', '2021-03-23', 'III-trimestre', 10, 1),
+(23, 12, 8, 19, 'electronica', '2021-03-04', 'III-trimestre', 13, 1),
+(24, 12, 10, 14, 'matematica', '2021-03-11', 'III-trimestre', 12, 1),
+(25, 19, 12, 10, 'quimica', '2021-03-25', 'III-trimestre', 13.67, 1),
+(26, 16, 10, 15, 'lingua_portuguesa', '2021-03-24', 'III-trimestre', 13.67, 1),
+(27, 12, 19, 17, 'ed_fisica', '2021-03-18', 'III-trimestre', 16, 1);
 
 -- --------------------------------------------------------
 

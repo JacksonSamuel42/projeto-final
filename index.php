@@ -45,7 +45,7 @@
 
             <form class="mt-4 mb-4" action="info_aluno.php" method="POST">
               <div class="input-group input-group-lg">
-                <input type="text" name="codigo" placeholder="Seu código de acesso" class="form-control">
+                <input required type="text" name="codigo" placeholder="Seu código de acesso" class="form-control">
                 <div class="input-group-append">
                   <button type="submit" class="btn btn-primary ">Acessar</button>
                 </div>

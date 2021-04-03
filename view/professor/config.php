@@ -10,7 +10,7 @@ function url(string $uri = null): string
     return ROOT;
 }
 
-$url = (isset($_GET['url'])) ? $_GET['url']:'dashboard';
+$url = (isset($_GET['url'])) ? $_GET['url']:'sala';
 $explode = array_filter(explode('/', $url));
 
 $pages = './';

@@ -170,7 +170,7 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-primary mt-5 ml-1 mb-5 w-100" onclick="PrintPanel();">Imprimir</button>
+                    <button class="imprimir-btn btn btn-primary mt-5 ml-1 mb-5 w-100" onclick="PrintPanel();">Imprimir</button>
                 </div>
             </div>
         </div>

@@ -40,7 +40,19 @@
                 <a href="javascript:;" data-toggle="nav-profile">
                     <div class="cover with-shadow"></div>
                     <div class="image image-icon bg-black text-grey-darker">
-                        <i class="fa fa-user"></i>
+                    <?php
+                            include __DIR__. './code/credencias.php';
+                            
+                            if($data['foto'] == NULL){?>
+                            <img src="../admin/foto/professor/default.jpg" width="180"
+                                class="rounded-circle d-flex justify-content-center m-auto">
+                            <?php
+                                }else{?>
+                            <img class="rounded-circle d-flex justify-content-center m-auto" width="180"
+                                src="../admin/foto/professor/<?= $data['foto']?>" alt="">
+                            <?php
+                                }
+                        ?>
                     </div>
                     <div class="info">
                         <b class="caret"></b>
@@ -66,7 +78,7 @@
                     <span>Dashboard</span>
 				</a>
 				<ul class="sub-menu">
-					<li class=""><a href="<?= url('index') ?>"><i class="fas fa-home"></i><span>Home</span></a></li>
+					<li class=""><a href="<?= url() ?>"><i class="fas fa-home"></i><span>Home</span></a></li>
 				</ul>
 			</li>
 
@@ -74,12 +86,13 @@
                 <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="nav-icon fas fa-copy"></i>
-                    <span>Turno/Turma/Classe</span>
+                    <span>Turno/Turma/Classe/Curso</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class=""><a href="<?= url('turno') ?>"><i class="fas fa-tags"></i> Gerir Turno</a></li>
+                    <li class="active"><a href="<?= url('turno') ?>"><i class="fas fa-tags"></i> Gerir Turno</a></li>
                     <li class=""><a href="<?= url('turma') ?>"><i class="fas fa-tags"></i> Gerir Turma</a></li>
                     <li class=""><a href="<?= url('classe') ?>"><i class="fas fa-tags"></i> Gerir Classe</a></li>
+                    <li class=""><a href="<?= url('curso') ?>"><i class="fas fa-tags"></i> Gerir cursos</a></li>
                 </ul>
             </li>
 
@@ -142,12 +155,17 @@
 				</ul>
 			</li>
 
-            <li class="">
-                <a href="javascript:;">
-                    <i class="fas fa-chart-pie"></i>
-                    <span>Desempenho</span>
-                </a>
-            </li>
+            <li class="has-sub">
+				<a href="javascript:;">
+                    <b class="caret"></b>
+                    <i class="fab fa-product-hunt"></i>
+                    <span>Pautas</span>
+				</a>
+				<ul class="sub-menu">
+					<li class=""><a href="<?= url('pautas') ?>"><i class="fas fa-tags"></i><span>
+                    Visualizar Pautas</span></a></li>
+				</ul>
+			</li>
 
             <!-- begin sidebar minify button -->
             <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i
@@ -180,82 +198,24 @@
 
     <!-- end page-header -->
     <?php 
-        include('../../database/db.config.php');
-
-        if(isset($_POST['updatedata'])){
-
-            $id = addslashes($_POST['update_id']);
-            $sala = addslashes($_POST['update_sala']);
-
-            if(!preg_match('/^\D/i', $name)){ echo "<div class='alert alert-danger'><h5> nome da sala não pode começar com numero</h5></div>";}
-            elseif(strlen($name) < 3){ echo "<div class='alert alert-danger'><h5> nome da sala não pode conter menos de 3 caracteres</h5></div>";}
-            else{
-                $sql = "UPDATE salas SET nome_sala = :salas, updated_at = NOW() WHERE id = :id";
-                $stmt = $pdo->prepare($sql);
-                $stmt->bindValue(":id", $id);
-                $stmt->bindValue(":salas", $sala);
-    
-                if($stmt->execute()){
-                    echo "<div class='alert alert-success'><h5>atualizado com sucesso</h5></div>";
-                    // echo $_FILES["img"]["tmp_name"], "upload/", $_FILES["img"]["name"];
-                }else{
-                    echo "<div class='alert alert-danger'><h5>erro ao atualizar</h5></div>";
-                }
-            }
-
-        }
-
-        if(isset($_POST['inserir'])){
-
-            // $id = addslashes($_POST['id']);
-            $name = addslashes($_POST['nome_sala']);
-
-            if(!preg_match('/^\D/i', $name)){ echo "<div class='alert alert-danger'><h5> nome da sala não pode começar com numero</h5></div>";}
-            elseif(strlen($name) < 3){ echo "<div class='alert alert-danger'><h5> nome da sala não pode conter menos de 3 caracteres</h5></div>";}
-            else{
-                $sql = $pdo->prepare("select * from salas where nome_sala = :name");
-                $sql->bindValue(":name", $name);
-                $sql->execute();
-    
-                if($sql->rowCount()){
-                    echo "<div class='alert alert-danger'><h5>sala já cadastrado</h5></div>";
-                }else{
-                    $query = "INSERT INTO salas (nome_sala, created_at, updated_at) VALUES (:name, NOW(), NULL)";
-                    $stmt = $pdo->prepare($query);
-                    $stmt->bindValue(":name", $name);
         
-                    if($stmt->execute()){
-                        echo "<div class='alert alert-success'><h5>Sala adicionada com sucesso</h5></div>";
-                    }else{
-                        echo "<div class='alert alert-danger'><h5>Erro ao adicionar salas</h5></div>";
-                    }
-                }
-            }
-
-
-        }
-
-        if(isset($_POST['deletedata'])){
-            // $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-            $id = addslashes($_POST['delete_id']);
-
-            $query = "DELETE FROM salas WHERE id = '$id' ";
-            $stmt = $pdo->prepare($query);
-
-            if($stmt->execute()){
-                echo "<div class='alert alert-success'><h5>Deletado com sucesso</h5></div>";
-            }else{
-                echo "<div class='alert alert-warning'><h5>Não Deletado</h5></div>";
-            } 
-        }
-        
-        $query = "SELECT * FROM salas";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute();
-
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
+   include("./classes/classesSalas.php");
+           $cadastrar = new Sala();
+          $cadastrar->CadastrarSalas()
+                
     ?>
+     <?php 
+     
+            $cadastrar = new Sala();
+            $cadastrar->atualizarSalas()
+                  
+      ?>
+       <?php 
+     
+            $cadastrar = new Sala();
+            $cadastrar->deletarSalas()
+                  
+      ?>
 
     
     <!-- begin panel -->
@@ -304,19 +264,8 @@
                 </thead>
                 <tbody>
                     <?php
-                        foreach ($data as $row) {?>
-                            <tr class="odd gradeX">
-                                <td ><?= $row['id']?></td>
-                                <td ><?= $row['nome_sala']?></td>
-                                <td>
-                                    <!-- <a class="updatebtn btn btn-primary text-white" href="/SGN/view/turno.php?id=<?= $row['id']?>">Editar</a> -->
-                                    <button type="button" class="updatebtn btn btn-primary" >Editar</button>
-                                    <button type="button" class="deletebtn btn btn-danger" >Deletar</button>
-                                    <!-- <a data-toggle="modal" data-target="#delete" class="text-white btn btn-danger" href="/SGN/view/turno.php?id=<?= $row['id']?>">Eliminar</a> -->
-                                </td>
-                            </tr>
-                        <?php
-                        }
+                      $listar = new Sala();
+                      $listar->listarDadosSalas()
                     ?>
                 </tbody>
             </table>

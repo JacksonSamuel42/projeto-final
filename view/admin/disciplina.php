@@ -40,7 +40,19 @@
                 <a href="javascript:;" data-toggle="nav-profile">
                     <div class="cover with-shadow"></div>
                     <div class="image image-icon bg-black text-grey-darker">
-                        <i class="fa fa-user"></i>
+                    <?php
+                            include __DIR__. './code/credencias.php';
+                            
+                            if($data['foto'] == NULL){?>
+                            <img src="../admin/foto/professor/default.jpg" width="180"
+                                class="rounded-circle d-flex justify-content-center m-auto">
+                            <?php
+                                }else{?>
+                            <img class="rounded-circle d-flex justify-content-center m-auto" width="180"
+                                src="../admin/foto/professor/<?= $data['foto']?>" alt="">
+                            <?php
+                                }
+                        ?>
                     </div>
                     <div class="info">
                         <b class="caret"></b>
@@ -66,7 +78,7 @@
                     <span>Dashboard</span>
 				</a>
 				<ul class="sub-menu">
-					<li class=""><a href="<?= url('index') ?>"><i class="fas fa-home"></i><span>Home</span></a></li>
+					<li class=""><a href="<?= url() ?>"><i class="fas fa-home"></i><span>Home</span></a></li>
 				</ul>
 			</li>
 
@@ -74,12 +86,13 @@
                 <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="nav-icon fas fa-copy"></i>
-                    <span>Turno/Turma/Classe</span>
+                    <span>Turno/Turma/Classe/Curso</span>
                 </a>
                 <ul class="sub-menu">
-                    <li class=""><a href="<?= url('turno') ?>"><i class="fas fa-tags"></i> Gerir Turno</a></li>
-                    <li class="active"><a href="<?= url('turma') ?>"><i class="fas fa-tags"></i> Gerir Turma</a></li>
+                    <li class="active"><a href="<?= url('turno') ?>"><i class="fas fa-tags"></i> Gerir Turno</a></li>
+                    <li class=""><a href="<?= url('turma') ?>"><i class="fas fa-tags"></i> Gerir Turma</a></li>
                     <li class=""><a href="<?= url('classe') ?>"><i class="fas fa-tags"></i> Gerir Classe</a></li>
+                    <li class=""><a href="<?= url('curso') ?>"><i class="fas fa-tags"></i> Gerir cursos</a></li>
                 </ul>
             </li>
 
@@ -142,12 +155,17 @@
 				</ul>
 			</li>
 
-            <li class="">
-                <a href="javascript:;">
-                    <i class="fas fa-chart-pie"></i>
-                    <span>Desempenho</span>
-                </a>
-            </li>
+            <li class="has-sub">
+				<a href="javascript:;">
+                    <b class="caret"></b>
+                    <i class="fab fa-product-hunt"></i>
+                    <span>Pautas</span>
+				</a>
+				<ul class="sub-menu">
+					<li class=""><a href="<?= url('pautas') ?>"><i class="fas fa-tags"></i><span>
+                    Visualizar Pautas</span></a></li>
+				</ul>
+			</li>
 
             <!-- begin sidebar minify button -->
             <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i
@@ -180,80 +198,16 @@
 
     <!-- end page-header -->
     <?php 
-        include('../../database/db.config.php');
-
-        if(isset($_POST['updatedata'])){
-
-            $id = addslashes($_POST['update_id']);
-            $disciplina = addslashes($_POST['update_disciplina']);
-            
-            if(!preg_match('/^\D+$/i', $nome_aluno)){ echo "<div class='alert alert-success'><h5> nome do aluno não pode conter numero</h5></div>";}
-            else{
-                $sql = "UPDATE disciplina SET nome_disciplina = :disciplina, updated_at = NOW() WHERE id = :id";
-                $stmt = $pdo->prepare($sql);
-                $stmt->bindValue(":id", $id);
-                $stmt->bindValue(":disciplina", $disciplina);
-
-                if($stmt->execute()){
-                    echo "<div class='alert alert-success'><h5>atualizado com sucesso</h5></div>";
-                    // echo $_FILES["img"]["tmp_name"], "upload/", $_FILES["img"]["name"];
-                }else{
-                    echo "<div class='alert alert-danger'><h5>erro ao atualizar</h5></div>";
-                }
-            }
-
-
-        }
-
-        if(isset($_POST['inserir'])){
-
-            // $id = addslashes($_POST['id']);
-            $disciplina = addslashes($_POST['nome_disc']);
-
-            if(!preg_match('/^\D+$/i', $disciplina)){ echo "<div class='alert alert-danger'><h5> Disciplina não pode conter numero</h5></div>";}
-            elseif(strlen($disciplina) < 3){ echo "<div class='alert alert-danger'><h5> Disciplina não pode conter menos de 3 caracteres</h5></div>";}
-            else{
-                $sql = $pdo->prepare("select * from disciplina where nome_disciplina = :disciplina");
-                $sql->bindValue(":disciplina", $disciplina);
-                $sql->execute();
-    
-                if($sql->rowCount()){
-                    echo "<div class='alert alert-danger'><h5>disciplina já cadastrado</h5></div>";
-                }else{
-                    $query = "INSERT INTO disciplina (nome_disciplina, created_at, updated_at) VALUES (:disciplina, NOW(), NULL)";
-                    $stmt = $pdo->prepare($query);
-                    $stmt->bindValue(":disciplina", $disciplina);
+    include("./classes/classesDisciplinas.php");
+    $inserir = new Disciplina();
+    $inserir->guardarDisciplina();
         
-                    if($stmt->execute()){
-                        echo "<div class='alert alert-success'><h5>disciplina adicionada com sucesso</h5></div>";
-                    }else{
-                        echo "<div class='alert alert-danger'><h5>Erro ao adicionar disciplina</h5></div>";
-                    }
-                }
-            }
-
-
-        }
-
-        if(isset($_POST['deletedata'])){
-            // $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-            $id = addslashes($_POST['delete_id']);
-
-            $query = "DELETE FROM disciplina WHERE id = '$id' ";
-            $stmt = $pdo->prepare($query);
-
-            if($stmt->execute()){
-                echo "<div class='alert alert-success'><h5>Deletado com sucesso</h5></div>";
-            }else{
-                echo "<div class='alert alert-warning'><h5>Não Deletado</h5></div>";
-            } 
-        }
         
-        $query = "SELECT * FROM disciplina";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute();
-
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        ?>
+    <?php 
+    $inserir = new Disciplina();
+    $inserir->atualizarDisciplina();
+    $inserir->deletarDisciplina();
         
     ?>
 
@@ -304,20 +258,9 @@
                 </thead>
                 <tbody>
                     <?php
-                        foreach ($data as $row) {?>
-                            <tr class="odd gradeX">
-                                <td><?= $row['id']?></td>
-                                <td><?= $row['nome_disciplina']?></td>
-                                <td>
-                                    <!-- <a class="updatebtn btn btn-primary text-white" href="<?= url('disciplina') ?>?id=<?= $row['id']?>">Editar</a> -->
-                                    <button type="button" class="updatebtn btn btn-primary" >Editar</button>
-                                    <button type="button" class="deletebtn btn btn-danger" >Deletar</button>
-                                    <!-- <a data-toggle="modal" data-target="#delete" class="text-white btn btn-danger" href="<?= url('disciplina') ?>?id=<?= $row['id']?>">Eliminar</a> -->
-                                </td>
-                            </tr>
-                        <?php
-                        }
-                    ?>
+                        $buscar = new Disciplina();
+                        $buscar->buscarDisciplina();  
+                     ?>
                 </tbody>
             </table>
 

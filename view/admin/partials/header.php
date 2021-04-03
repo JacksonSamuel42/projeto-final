@@ -16,7 +16,7 @@
     <!-- begin header-nav -->
     <ul class="navbar-nav navbar-right">
         
-        <li class="dropdown">
+        <!-- <li class="dropdown">
             <a href="#" data-toggle="dropdown" class="dropdown-toggle icon">
                 <i class="ion-ios-notifications"></i>
                 <span class="label">0</span>
@@ -27,7 +27,7 @@
                     No notification found
                 </li>
             </ul>
-        </li>
+        </li> -->
         <li class="dropdown navbar-user">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <div class="image image-icon bg-black text-grey-darker">

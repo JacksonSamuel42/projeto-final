@@ -98,18 +98,25 @@
                 <a href="javascript:;" data-toggle="nav-profile">
                     <div class="cover with-shadow"></div>
                     <div class="image image-icon bg-black text-grey-darker">
-                        <i class="fa fa-user"></i>
+                        <?php
+                            include __DIR__. './code/credencias.php';
+                            
+                            if($data['foto'] == NULL){?>
+                            <img src="../admin/foto/professor/default.jpg" width="180"
+                                class="rounded-circle d-flex justify-content-center m-auto">
+                            <?php
+                                }else{?>
+                            <img class="rounded-circle d-flex justify-content-center m-auto" width="180"
+                                src="../admin/foto/professor/<?= $data['foto']?>" alt="">
+                            <?php
+                                }
+                        ?>
                     </div>
                     <div class="info">
                         <b class="caret"></b>
                         <?php echo $_SESSION['user']?>
                     </div>
                 </a>
-            </li>
-            <li>
-                <ul class="nav nav-profile">
-                    <li class="active"><a href="<?= url('usuario') ?>"><i class="ion-ios-cog"></i>Usuários do sistema</a></li>
-                </ul>
             </li>
         </ul>
 
@@ -118,12 +125,12 @@
         <ul class="nav nav1">
 			<li class="nav-header">Navigation</li>
 
-            <li class="">
+            <!-- <li class="">
                 <a href="<?= url() ?>">
                     <i class="ion-ios-pulse"></i>
                     <span>Home</span>
                 </a>
-            </li>
+            </li> -->
 
             <li class="active">
                 <a href="<?= url('sala') ?>">
@@ -142,6 +149,18 @@
 					<li class=""><a href="<?= url('boletim-1') ?>"><i class="fas fa-tags"></i><span>I-Trimestre</span></a></li>
 					<li class=""><a href="<?= url('boletim-2') ?>"><i class="fas fa-tags"></i><span>II-Trimestre</span></a></li>
 					<li class=""><a href="<?= url('boletim-3') ?>"><i class="fas fa-tags"></i><span>III-Trimestre</span></a></li>
+				</ul>
+			</li>
+
+            <li class="has-sub">
+				<a href="javascript:;">
+                    <b class="caret"></b>
+                    <i class="fab fa-product-hunt"></i>
+                    <span>Pautas</span>
+				</a>
+				<ul class="sub-menu">
+					<li class=""><a href="<?= url('pautas') ?>"><i class="fas fa-tags"></i><span>
+                    Visualizar Pautas</span></a></li>
 				</ul>
 			</li>
 

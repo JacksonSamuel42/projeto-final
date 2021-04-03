@@ -40,7 +40,19 @@
                 <a href="javascript:;" data-toggle="nav-profile">
                     <div class="cover with-shadow"></div>
                     <div class="image image-icon bg-black text-grey-darker">
-                        <i class="fa fa-user"></i>
+                    <?php
+                            include __DIR__. './code/credencias.php';
+                            
+                            if($data['foto'] == NULL){?>
+                            <img src="../admin/foto/professor/default.jpg" width="180"
+                                class="rounded-circle d-flex justify-content-center m-auto">
+                            <?php
+                                }else{?>
+                            <img class="rounded-circle d-flex justify-content-center m-auto" width="180"
+                                src="../admin/foto/professor/<?= $data['foto']?>" alt="">
+                            <?php
+                                }
+                        ?>
                     </div>
                     <div class="info">
                         <b class="caret"></b>
@@ -66,7 +78,7 @@
                     <span>Dashboard</span>
 				</a>
 				<ul class="sub-menu">
-					<li class=""><a href="<?= url('index') ?>"><i class="fas fa-home"></i><span>Home</span></a></li>
+					<li class=""><a href="<?= url() ?>"><i class="fas fa-home"></i><span>Home</span></a></li>
 				</ul>
 			</li>
 
@@ -74,12 +86,13 @@
                 <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="nav-icon fas fa-copy"></i>
-                    <span>Turno/Turma/Classe</span>
+                    <span>Turno/Turma/Classe/Curso</span>
                 </a>
                 <ul class="sub-menu">
                     <li class="active"><a href="<?= url('turno') ?>"><i class="fas fa-tags"></i> Gerir Turno</a></li>
                     <li class=""><a href="<?= url('turma') ?>"><i class="fas fa-tags"></i> Gerir Turma</a></li>
                     <li class=""><a href="<?= url('classe') ?>"><i class="fas fa-tags"></i> Gerir Classe</a></li>
+                    <li class=""><a href="<?= url('curso') ?>"><i class="fas fa-tags"></i> Gerir cursos</a></li>
                 </ul>
             </li>
 
@@ -141,12 +154,17 @@
 					<li class=""><a href="<?= url('boletim-3') ?>"><i class="fas fa-tags"></i><span>III-Trimestre</span></a></li>
 				</ul>
 			</li>
-            <li class="">
-                <a href="javascript:;">
-                    <i class="fas fa-chart-pie"></i>
-                    <span>Desempenho</span>
-                </a>
-            </li>
+            <li class="has-sub">
+				<a href="javascript:;">
+                    <b class="caret"></b>
+                    <i class="fab fa-product-hunt"></i>
+                    <span>Pautas</span>
+				</a>
+				<ul class="sub-menu">
+					<li class=""><a href="<?= url('pautas') ?>"><i class="fas fa-tags"></i><span>
+                    Visualizar Pautas</span></a></li>
+				</ul>
+			</li>
 
             <!-- begin sidebar minify button -->
             <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i
@@ -174,20 +192,9 @@
     <!-- end page-header -->
 
     <?php 
-
-        if(isset($_POST['deletedata'])){
-            // $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-            $id = addslashes($_POST['delete_id']);
-
-            $query = "DELETE FROM professores WHERE id = '$id' ";
-            $stmt = $pdo->prepare($query);
-
-            if($stmt->execute()){
-                echo "<div class='alert alert-success'><h5>Deletado com sucesso</h5></div>";
-            }else{
-                echo "<div class='alert alert-warning'><h5>Não Deletado</h5></div>";
-            } 
-        }
+        include("classes/classesProfesssores.php");
+        $deletar = new Professor();
+        $deletar->deletarProfs();
         
         $query = "SELECT * FROM professores";
         $stmt = $pdo->prepare($query);
@@ -289,8 +296,13 @@
                                         <label for="">Curso</label>
                                         <select class="form-control mb-3" name="curso" id="">
                                             <option value="">Selecionar</option>
-                                            <option value="informática">Informática</option>
-                                            <option value="eletrónica">Eletrónica</option>
+                                            <?php
+                                                foreach ($curso as $value) {?>
+                                                <option value="<?= $value['nome_curso']?>"><?= $value['nome_curso']?>
+                                                </option>
+                                            <?php
+                                                }
+                                            ?>
                                         </select>
                                     </div>
 

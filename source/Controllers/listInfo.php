@@ -24,3 +24,8 @@ $query5 = "SELECT * FROM salas";
 $stmt5 = $pdo->prepare($query5);
 $stmt5->execute();
 $sala = $stmt5->fetchAll(PDO::FETCH_ASSOC);
+
+$query6 = "SELECT * FROM curso";
+$stmt6 = $pdo->prepare($query6);
+$stmt6->execute();
+$curso = $stmt6->fetchAll(PDO::FETCH_ASSOC);

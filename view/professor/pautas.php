@@ -81,27 +81,27 @@
                 </a>
             </li>
 
-            <li class="active has-sub">
+            <li class="has-sub">
 				<a href="javascript:;">
                     <b class="caret"></b>
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Boletins</span>
 				</a>
 				<ul class="sub-menu">
-					<li class=""><a href="<?= url('boletim-1') ?>"><i class="fas fa-tags"></i><span>I-Trimestre</span></a></li>
-					<li class="active"><a href="<?= url('boletim-2') ?>"><i class="fas fa-tags"></i><span>II-Trimestre</span></a></li>
+					<li class="active"><a href="<?= url('boletim-1') ?>"><i class="fas fa-tags"></i><span>I-Trimestre</span></a></li>
+					<li class=""><a href="<?= url('boletim-2') ?>"><i class="fas fa-tags"></i><span>II-Trimestre</span></a></li>
 					<li class=""><a href="<?= url('boletim-3') ?>"><i class="fas fa-tags"></i><span>III-Trimestre</span></a></li>
 				</ul>
 			</li>
 
-            <li class="has-sub">
+            <li class="active has-sub">
 				<a href="javascript:;">
                     <b class="caret"></b>
                     <i class="fab fa-product-hunt"></i>
                     <span>Pautas</span>
 				</a>
 				<ul class="sub-menu">
-					<li class=""><a href="<?= url('pautas') ?>"><i class="fas fa-tags"></i><span>
+					<li class="active"><a href="<?= url('pautas') ?>"><i class="fas fa-tags"></i><span>
                     Visualizar Pautas</span></a></li>
 				</ul>
 			</li>
@@ -116,6 +116,7 @@
     <!-- end sidebar scrollbar -->
 </div>
 
+<div class="sidebar-bg"></div>
 <!-- end #sidebar -->
 
 
@@ -129,13 +130,10 @@
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">Gerir Boletim</small></h1>
-
-    <!-- {% if app.session.get('success') %}
-        <h4 class="alert alert-success">{{success}}</h4>
-    {% endif %} -->
+    <h1 class="page-header">Gerir Pauta</small></h1>
 
     <!-- end page-header -->
+
     <?php
         include('../../database/db.config.php');
         $email = $_SESSION['status_email'];
@@ -174,11 +172,14 @@
     
     <!-- begin panel -->
     <div class="panel panel-inverse">
+
+        <div class="row">
+            
+        </div>
+
         <div class="panel-heading">
-            <h4 class="panel-title">Gerir Boletim</h4>
-            <div class="panel-heading-btn">
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default"
-                    data-click="panel-expand"><i class="fa fa-expand"></i></a>
+            <div class="col-lg-4">
+                <h4 class="panel-title">Pauta Alunos</h4>
             </div>
         </div>
         <div class="panel-body">
@@ -188,20 +189,22 @@
                     <tr>
                         <th class="text-nowrap">id</th>
                         <th class="text-nowrap">Nome do Aluno</th>
+                        <th class="text-nowrap">Sala do Aluno</th>
                         <th class="text-nowrap">Comandos</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                        foreach ($data as $row) {?>
-                            <tr class="odd gradeX">
-                                <td><?= $row['id']?></td>
-                                <td><?= $row['nome_aluno']?></td>
-                                <td>
-                                    <button type="button" data-toggle="modal" data-target="#boletim-modal" class="imprimir btn btn-primary" ><i class="fa fa-eye"></i></button>
-                                    <a href="boletim-2?id=<?= $row['id']?>" class="btn btn-success" ><i class="fa fa-hand-pointer"></i></a>
-                                </td>
-                            </tr>
+
+                    foreach($data as $row){?>
+                        <tr class="odd gradeX">
+                            <td><?= $row['id']?></td>
+                            <td><?= $row['nome_aluno']?></td>
+                            <td><?= $row['sala']?></td>
+                            <td>
+                                <a href="pauta_aluno?aluno=<?= $row['id']?>&classe=<?= $row['classe']?>" class="btn btn-secondary" ><i class="fa fa-eye"></i></a>
+                            </td>
+                        </tr>
                         <?php
                         }
                     ?>
@@ -234,7 +237,6 @@
 <!-- end #content -->
 
 <!-- ================== BEGIN BASE JS ================== -->
-<?php include __DIR__. "./boletimData/modal2.php"?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
 <script src="../../assets/js/app.min.js"></script>
 <script src="../../assets/js/theme/apple.min.js"></script>

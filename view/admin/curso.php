@@ -40,19 +40,7 @@
                 <a href="javascript:;" data-toggle="nav-profile">
                     <div class="cover with-shadow"></div>
                     <div class="image image-icon bg-black text-grey-darker">
-                    <?php
-                            include __DIR__. './code/credencias.php';
-                            
-                            if($data['foto'] == NULL){?>
-                            <img src="../admin/foto/professor/default.jpg" width="180"
-                                class="rounded-circle d-flex justify-content-center m-auto">
-                            <?php
-                                }else{?>
-                            <img class="rounded-circle d-flex justify-content-center m-auto" width="180"
-                                src="../admin/foto/professor/<?= $data['foto']?>" alt="">
-                            <?php
-                                }
-                        ?>
+                        <i class="fa fa-user"></i>
                     </div>
                     <div class="info">
                         <b class="caret"></b>
@@ -78,7 +66,7 @@
                     <span>Dashboard</span>
 				</a>
 				<ul class="sub-menu">
-					<li class=""><a href="<?= url() ?>"><i class="fas fa-home"></i><span>Home</span></a></li>
+		<li class=""><a href="<?= url('index') ?>"><i class="fas fa-home"></i><span>Home</span></a></li>
 				</ul>
 			</li>
 
@@ -86,13 +74,13 @@
                 <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="nav-icon fas fa-copy"></i>
-                    <span>Turno/Turma/Classe/Curso</span>
+                    <span>Turno/Turma/Classe/curso</span>
                 </a>
                 <ul class="sub-menu">
                     <li class=""><a href="<?= url('turno') ?>"><i class="fas fa-tags"></i> Gerir Turno</a></li>
                     <li class=""><a href="<?= url('turma') ?>"><i class="fas fa-tags"></i> Gerir Turma</a></li>
-                    <li class="active"><a href="<?= url('classe') ?>"><i class="fas fa-tags"></i> Gerir Classe</a></li>
-                    <li class=""><a href="<?= url('curso') ?>"><i class="fas fa-tags"></i> Gerir cursos</a></li>
+                    <li class=""><a href="<?= url('classe') ?>"><i class="fas fa-tags"></i> Gerir Classe</a></li>
+                    <li class="active"><a href="<?= url('curso') ?>"><i class="fas fa-tags"></i> Gerir cursos</a></li>
                 </ul>
             </li>
 
@@ -155,17 +143,13 @@
 				</ul>
 			</li>
 
-            <li class="has-sub">
-				<a href="javascript:;">
-                    <b class="caret"></b>
-                    <i class="fab fa-product-hunt"></i>
-                    <span>Pautas</span>
-				</a>
-				<ul class="sub-menu">
-					<li class=""><a href="<?= url('pautas') ?>"><i class="fas fa-tags"></i><span>
-                    Visualizar Pautas</span></a></li>
-				</ul>
-			</li>
+            <li class="">
+                <a href="javascript:;">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Desempenho</span>
+                </a>
+            </li>
+
             <!-- begin sidebar minify button -->
             <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i
                         class="ion-ios-arrow-back"></i> <span>Collapse</span></a></li>
@@ -184,40 +168,46 @@
     <!-- begin breadcrumb -->
     <ol class="breadcrumb float-xl-right">
         <li class="breadcrumb-item"><a href="/SGN/admin/">Home</a></li>
-        <li class="breadcrumb-item"><a href="javascript:;">Turma</a></li>
-        <li class="breadcrumb-item"><a href="javascript:;">Classes</a></li>
+        <li class="breadcrumb-item"><a href="javascript:;">Curso</a></li>
+        <li class="breadcrumb-item"><a href="javascript:;">Cursos</a></li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">Classes</small></h1>
+    <h1 class="page-header">Cursos</small></h1>
 
     <!-- {% if app.session.get('success') %}
         <h4 class="alert alert-success">{{success}}</h4>
     {% endif %} -->
 
     <!-- end page-header -->
-    <?php
-        include("./classes/classesClasses.php");
-        $classes = new Classes();
-        $classes->cadastrarClasse();
-    ?>
-    
-    <?php
-     $classes = new Classes();
-     $classes->atualizarClasses();
-    ?>
-    
-    <?php
-        $classes = new Classes();
-        $classes->deletarClasses();
-    ?>
+    <?php 
+       include("./classes/classesCursos.php");
+       $inserir = new Curso();
+       $inserir->cadastrarCurso();
 
+       
+
+
+
+    ?>
+ <?php 
+    $inserir = new Curso();
+    $inserir->atualizarCursos();
+    
+ ?>
+ 
+ <?php 
+    $inserir = new Curso();
+    $inserir->deletarCurso();
+    
+ ?>
+ 
 
     
     <!-- begin panel -->
     <div class="panel panel-inverse">
         <div class="panel-heading">
-            <h4 class="panel-title">Classes</h4>
+            <h4 class="panel-title">Cursos</h4>
             <div class="panel-heading-btn">
                 <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default"
                     data-click="panel-expand"><i class="fa fa-expand"></i></a>
@@ -229,15 +219,16 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Adicionar Classe</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Adicionar Curso</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form action="<?= url('classe') ?>" method="POST">
+                        <form action="<?= url('curso') ?>" method="POST">
                             <div class="modal-body">
                                 <div style="max-width: 400px;margin: auto;display: flex;flex-direction: column;justify-content: center; align-items: center;">
-                                    <input required type="text" name="classe" class="form-control mb-3"  placeholder="Nome da classe">
+            
+                                    <input required type="text" name="nome_curso" class="form-control mb-3"  placeholder="Nome da Turma">
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -253,14 +244,28 @@
                 <thead>
                     <tr>
                         <th class="text-nowrap">id</th>
-                        <th class="text-nowrap">Classe</th>
+                        <th class="text-nowrap">Curso</th>
                         <th class="text-nowrap">Comandos</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                        $listar = new Classes();
-                        $listar->listarClasses();
+
+                    $buscar = new  Curso();
+                    $buscar->buscarCurso();
+                       
+                       
+                       
+                       
+                       
+                       
+                    
+                       
+                       
+                       
+                       
+                       
+                        
                     ?>
                 </tbody>
             </table>
@@ -271,16 +276,16 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Editar Turma e classe</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Editar curso</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form action="<?= url('classe') ?>" method="POST">
+                        <form action="<?= url('curso') ?>" method="POST">
                             <div class="modal-body">
                                 <div style="max-width: 400px;margin: auto;display: flex;flex-direction: column;justify-content: center; align-items: center;">
                                     <input type="hidden" name="update_id" id="update_id" class="form-control mb-3" >
-                                    <input required type="text" name="update_classe" id="update_classe" class="form-control mb-3"  placeholder="Nome da classe">
+                                    <input required type="text" name="curso" id="update_turma" class="form-control mb-3"  placeholder="Nome da Turma">
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -307,12 +312,12 @@
                             <div class="text-center text-danger">
                                 <i class="fas fa-exclamation-circle fa-4x mb-3 animated rotateIn"></i>
                                 <h3 class="">
-                                    Você esta prestes a deletar uma classe<br>
+                                    Você esta prestes a deletar uma Turma<br>
                                     tem a certeza que deseja deletar?
                                 </h3>
                             </div>
                         </div>
-                        <form action="<?= url('classe') ?>" method="POST">
+                        <form action="<?= url('curso') ?>" method="POST">
                             <div class="modal-body">
                                 <div style="max-width: 400px;margin: auto;display: flex;flex-direction: column;justify-content: center; align-items: center;">
                                     <input required type="hidden" name="delete_id" id="delete_id" class="form-control mb-3" >
@@ -335,7 +340,7 @@
 
     <!-- Button trigger modal -->
     <button type="button" class="float-right btn btn-primary mb-4" data-toggle="modal" data-target="#Inserir">
-        Adicionar classe
+        Adiciona Cursos
     </button>
 
 
@@ -369,7 +374,7 @@
 <script src="../../assets/plugins/datatables.net-autofill-bs4/js/autofill.bootstrap4.min.js"></script>
 <script src="../../assets/js/demo/table-manage-autofill.demo.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<!-- <script src="../assets/js/activelink.js"></script> -->
+<!-- <script src="../../assets/js/activelink.js"></script> -->
 <!-- ================== END PAGE LEVEL JS ================== -->
 <script>
     $(document).ready(function(){
@@ -382,7 +387,7 @@
            }).get();
 
            $('#update_id').val(data[0]);
-           $('#update_classe').val(data[1]);
+           $('#update_turma').val(data[1]);
         });
 
         $('.deletebtn').on('click', function(){
